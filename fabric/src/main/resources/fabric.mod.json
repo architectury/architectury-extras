@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "architectury-extras",
+  "version": "${version}",
+  "name": "Architectury Extras",
+  "description": "Extra APIs for Architectury.",
+  "authors": [
+    "shedaniel"
+  ],
+  "contact": {
+    "issues": "https://github.com/architectury/architectury-extras/issues",
+    "sources": "https://github.com/architectury/architectury-extras",
+    "homepage": "https://architectury.github.io/architectury-documentations/"
+  },
+  "license": "LGPL-3",
+  "environment": "*",
+  "icon": "icon.png",
+  "depends": {
+    "minecraft": "~1.18.2-",
+    "architectury": ">=4.0"
+  },
+  "custom": {
+    "modmenu:api": true
+  }
+}

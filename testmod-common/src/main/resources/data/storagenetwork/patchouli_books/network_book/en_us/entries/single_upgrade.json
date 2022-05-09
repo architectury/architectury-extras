@@ -1,0 +1,15 @@
+{
+  "name": "item.storagenetwork.single_upgrade",
+  "icon": "storagenetwork:single_upgrade",
+  "category": "storagenetwork:upgrades",
+  "pages": [
+    {
+      "type": "text",
+      "text": "item.storagenetwork.single_upgrade.guide"
+    },
+    {
+      "type": "crafting",
+      "recipe": "storagenetwork:single_upgrade"
+    }
+  ]
+}

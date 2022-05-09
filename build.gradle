@@ -1,0 +1,166 @@
+buildscript {
+    configurations.classpath {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
+plugins {
+    id "architectury-plugin" version "3.4-SNAPSHOT"
+    id "dev.architectury.loom" version "0.11.0-SNAPSHOT" apply false
+    id "org.cadixdev.licenser" version "0.6.1"
+    id "maven-publish"
+}
+
+architectury {
+    minecraft = rootProject.minecraft_version
+}
+
+subprojects {
+    apply plugin: "dev.architectury.loom"
+
+    loom {
+        silentMojangMappingsLicense()
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.architectury.minecraft}"
+        mappings loom.officialMojangMappings()
+//        mappings loom.layered {
+//            officialMojangMappings()
+//            crane("dev.architectury:crane:${rootProject.crane_version}")
+//        }
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "org.cadixdev.licenser"
+
+    ext {
+        isSnapshot = System.getenv("PR_NUM") != null
+    }
+
+    def runNumber = (System.getenv("GITHUB_RUN_NUMBER") == null ? "9999" : System.getenv("GITHUB_RUN_NUMBER"))
+
+    if (!ext.isSnapshot) {
+        version = rootProject.base_version + "." + runNumber
+        archivesBaseName = rootProject.archives_base_name
+    } else {
+        version = rootProject.base_version + "-PR." + System.getenv("PR_NUM") + "." + runNumber
+        archivesBaseName = rootProject.archives_base_name_snapshot
+    }
+
+    group = rootProject.maven_group
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 17
+    }
+
+    javadoc {
+        // Architectury's common javadoc has references to platform code, which cannot be resolved normally.
+        // Let's just skip the errors!
+        failOnError = false
+    }
+
+    license {
+        header = rootProject.file(name.startsWith("testmod") ? "HEADER_MIT" : "HEADER")
+
+        ext {
+            name = "architectury"
+            year = "2020, 2021, 2022"
+        }
+
+        include "**/*.java"
+        exclude "**/NbtType.java"
+
+        ignoreFailures = true
+    }
+
+    ext {
+        releaseChangelog = {
+            def dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm")
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+            def branch
+            if (System.env.BRANCH_NAME) {
+                branch = System.env.BRANCH_NAME
+                branch = branch.substring(branch.lastIndexOf("/") + 1)
+            } else {
+                branch = "git rev-parse --abbrev-ref HEAD".execute().in.text.trim()
+            }
+            if (branch == "HEAD") {
+                branch = "git rev-parse --short HEAD".execute().in.text.trim()
+            }
+            def time = dateFormat.format(new Date())
+            def changes = new StringBuilder()
+            changes << "<h2>Architectury v$project.version for $project.supported_version</h2>Updated at <b>$time</b>.<br><a href=\"https://www.github.com/architectury/architectury/commits/$branch\">Click here for changelog</a>"
+            def proc = "git log --max-count=200 --pretty=format:%s".execute()
+            proc.in.eachLine { line ->
+                def processedLine = line.toString()
+                if (!processedLine.contains("New translations") && !processedLine.contains("Merge") && !processedLine.contains("branch")) {
+                    changes << "<br>- ${processedLine.capitalize()}"
+                }
+            }
+            proc.waitFor()
+            return changes.toString()
+        }
+    }
+
+    java {
+        withSourcesJar()
+    }
+}
+
+task licenseFormatAll
+subprojects { p -> licenseFormatAll.dependsOn("${p.path}:licenseFormat") }
+
+[":common", ":fabric", ":forge"].forEach { projectName ->
+    project(projectName) {
+        sourceSets {
+            create("transferBase") {
+                java { srcDirs = [file("src/transfer/base/java")] }
+                resources { srcDirs = [file("src/transfer/base/resources")] }
+                compileClasspath += main.compileClasspath
+            }
+            create("transferItem") {
+                java { srcDirs = [file("src/transfer/item/java")] }
+                resources { srcDirs = [file("src/transfer/item/resources")] }
+                compileClasspath += transferBase.compileClasspath + transferBase.output
+            }
+            create("transferFluid") {
+                java { srcDirs = [file("src/transfer/fluid/java")] }
+                resources { srcDirs = [file("src/transfer/fluid/resources")] }
+                compileClasspath += transferBase.compileClasspath + transferBase.output
+            }
+            create("transferEnergy") {
+                java { srcDirs = [file("src/transfer/energy/java")] }
+                resources { srcDirs = [file("src/transfer/energy/resources")] }
+                compileClasspath += transferBase.compileClasspath + transferBase.output
+            }
+        }
+        
+        jar {
+            from sourceSets.transferBase.output
+            from sourceSets.transferItem.output
+            from sourceSets.transferFluid.output
+            from sourceSets.transferEnergy.output
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        }
+        
+        ["transferBase", "transferItem", "transferFluid", "transferEnergy"].forEach { sourceSetName ->
+            configurations {
+                create(sourceSetName)
+            }
+            
+            def jarTask = tasks.create("${sourceSetName}Jar", Jar) {
+                classifier sourceSetName
+                from sourceSets.getByName(sourceSetName).output
+            }
+
+            artifacts {
+                add(sourceSetName, jarTask)
+            }
+        }
+    }
+}

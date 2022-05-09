@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[38,)"
+issueTrackerURL = "https://github.com/architectury/architectury-extras/issues"
+license = "GNU LGPLv3"
+
+[[mods]]
+modId = "architectury-extras"
+version = "${version}"
+displayName = "Architectury Extras"
+authors = "shedaniel"
+description = '''
+Extra APIs for Architectury.
+'''
+logoFile = "icon.png"
+license = "LGPL-3"
+
+[[dependencies.architectury-extras]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.architectury-extras]]
+modId = "forge"
+mandatory = true
+versionRange = "[38.0.17,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.architectury-extras]]
+modId = "architectury"
+mandatory = true
+versionRange = "[4.0,)"
+ordering = "NONE"
+side = "BOTH"

@@ -1,0 +1,8 @@
+{
+    "__comment": "Copyright © InsomniaKitten 2017",
+	"parent":"storagenetwork:parent/cable_none",
+    "textures": {
+        "particle": "storagenetwork:block/cable_export",
+        "texture": "storagenetwork:block/cable_export"
+    } 
+}

@@ -1,0 +1,105 @@
+{
+    "block.storagenetwork:kabel": "Кабель хранения",
+    "block.storagenetwork:storage_kabel": "Связующий кабель хранения",
+    "block.storagenetwork:ex_kabel": "Кабель хранения экспорта",
+    "block.storagenetwork:im_kabel": "Кабель хранения импорта",
+    "block.storagenetwork:process_kabel": "Обрабатывающий кабель",
+
+    "block.storagenetwork:master": "Мастер сетевого хранения",
+    "block.storagenetwork:request": "Таблица запросов хранения",
+
+    "item.storagenetwork:upgrade_0": "Обновление \"Скорость\"",
+    "item.storagenetwork:upgrade_1": "Обновление \"Операция\"",
+    "item.storagenetwork:upgrade_2": "Обновление \"Стак\"",
+    "item.storagenetwork:upgrade_3": "Обновление \"Запас\"",
+
+    "item.storagenetwork:remote_0": "Удаленное хранение",
+    "item.storagenetwork:remote_2": "Обновленное удаленное хранение",
+    "item.storagenetwork:remote_1": "Расширенное удаленное хранение",
+    "item.storagenetwork:remote_3": "Простое удаленное хранение",
+
+    "block.storagenetwork:recipe.invalid": "Транзакция недействительна:",
+    "block.storagenetwork:recipe.invalidleft": "Установить вход слева",
+    "block.storagenetwork:recipe.invalidright": "Установить выход справа",
+    "block.storagenetwork:recipe.valid": "Транзакция действительна",
+
+    "item.remote.outofrange": "Вне диапазона",
+    "item.remote.notloaded": "Чанк не загружен",
+
+    "gui.storagenetwork.operate.tooltip": "Активно, если %s чем %d %s в сети",
+    "gui.storagenetwork.operate.tooltip.more": "больше",
+    "gui.storagenetwork.operate.tooltip.less": "меньше",
+
+    "gui.storagenetwork.refresh": "Обновить обработку транзакций, так, если он застрял в ожидании результата, это поменяет его обратно в режим рецепта для сбора ингредиентов.",
+
+    "gui.storagenetwork.checkbox.meta": "Метаданные",
+    "gui.storagenetwork.checkbox.ore": "Словарь руды",
+    "gui.storagenetwork.checkbox.nbt": "NBT",
+
+    "gui.storagenetwork.import": "Фильтр импорта",
+    "gui.storagenetwork.allowlist": "Белый список",
+    "gui.storagenetwork.ignorelist": "Черный список",
+
+    "gui.storagenetwork.sort": "Направление сортировки",
+    "gui.storagenetwork.priority.up": "Приоритет выше (меньшее идет первым)",
+    "gui.storagenetwork.priority.down": "Приоритет ниже (меньшее идет первым)",
+
+    "gui.storagenetwork.req.tooltip_name": "Сортировать по имени",
+    "gui.storagenetwork.req.tooltip_mod": "Сортировать по моду",
+    "gui.storagenetwork.req.tooltip_amount": "Сортировать по кол-ву",
+
+    "gui.storagenetwork.fil.tooltip_in": "Только вход",
+    "gui.storagenetwork.fil.tooltip_out": "Только выход",
+    "gui.storagenetwork.fil.tooltip_both": "Вход и выход",
+
+    "gui.storagenetwork.shift": "Зажмите Shift для большей информации.",
+
+    "gui.storagenetwork.fil.tooltip_mod": "Префикс @: Поиск по моду.",
+    "gui.storagenetwork.fil.tooltip_tooltip": "Префикс #: Поиск по подсказке.",
+    "gui.storagenetwork.fil.tooltip_tags": "Префикс $: Поиск по словарю руды.",
+    "gui.storagenetwork.fil.tooltip_clear": "Очистить текст с помощью ПКМ или кнопки X",
+
+    "gui.storagenetwork.tooltip_clear": "Очистить поиск",
+    "gui.storagenetwork.fil.tooltip_jei_on": "Поиск JEI включен",
+    "gui.storagenetwork.fil.tooltip_jei_off": "Поиск JEI отключен",
+
+
+    "tooltip.storagenetwork.kabel_S": "Используется, чтобы подключить инвентарь к сети.",
+    "tooltip.storagenetwork.kabel_E": "Экспортирует объекты из сети в прикрепленные инвентари.",
+    "tooltip.storagenetwork.kabel_I": "Импортирует предметы из прикрепленных инвентарей в сеть.",
+    "tooltip.storagenetwork.kabel_P": "Может автоматизировать простую обработку транзакций.",
+    "tooltip.storagenetwork.kabel_L": "Кабель по умолчанию для подключения частей вашей сети.",
+    "tooltip.storagenetwork.master": "Сердце сети. Только ОДИН на сеть.",
+    "tooltip.storagenetwork.request": "Используется для просмотра и запроса предметов из сети.",
+    "tooltip.storagenetwork.remote_0": "Используется для доступа к сети на расстоянии в 64 блока.",
+    "tooltip.storagenetwork.remote_1": "Используется для доступа к сети с неограниченного расстояния и между измерениями.",
+    "tooltip.storagenetwork.remote_2": "Используется для доступа к сети с неограниченным расстоянием.",
+    "tooltip.storagenetwork.remote_3": "Сеть без создания с неограниченного расстояния.",
+
+    "tooltip.storagenetwork.upgrade_0": "Увеличивает скорость импорта/экспорта.",
+    "tooltip.storagenetwork.upgrade_1": "Активность кабеля зависит от количества предметов.",
+    "tooltip.storagenetwork.upgrade_2": "Увеличивает размер стака задачи.",
+    "tooltip.storagenetwork.upgrade_3": "Сохраняет определенное количество предметов в прикрепленном инвентаре (только в кабеле экспорта).",
+
+
+    "block.storagenetwork:controller": "Контроллер",
+    "tooltip.storagenetwork.controller": "Управляет всеми обрабатываемыми кабелями в сети",
+
+    "chat.master.emptyslots": "Потенциальные пустые слоты:",
+    "chat.master.connectables": "Подключенные кабели:",
+    "processing.alwayson.true": "Активно",
+    "processing.alwayson.false": "Остальные:",
+
+    "storagenetwork.process.status0": "Остановлено или отключено",
+    "storagenetwork.process.status1": "Ожидание импорта (кэширование)",
+    "storagenetwork.process.status2": "Экспорт рецепта (кэшированный)",
+
+    "processing.buttons.toggle.true": "Всегда активно",
+    "processing.buttons.toggle.false": "Обработать только запрошенный номер",
+    "processing.buttons.minus": "Уменьшить запрос",
+    "processing.buttons.plus": "Увеличить запрос",
+    "processing.empty.ingredients": "Пустые ингредиенты",
+
+    "gui.storagenetwork.processing.recipe": "Ингридиенты для каждого цикла будут посланы, как, если бы приходили от этой стороны блока",
+    "gui.storagenetwork.processing.extract": "При вытягивании результатов обработки он будет взят как бы с этой стороны блока"
+}

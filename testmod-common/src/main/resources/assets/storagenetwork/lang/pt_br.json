@@ -1,0 +1,173 @@
+{
+    "itemGroup.storagenetwork": "Simple Storage Network",
+    
+    "item.storagenetwork.network_book":"Livro Guia da Rede",
+    "storagenetwork.network_book.landing_text":"Uma rede de armazenamento simples irá gerenciar todos os seus estoques. Veja $(l:gs_setup)Introdução$(/l) ou procure um item ",
+    "block.storagenetwork.kabel": "Cabo de Rede",
+    "block.storagenetwork.kabel.guide": "O Cabo de Rede se conecta apenas a blocos da rede",
+    "block.storagenetwork.storage_kabel": "Cabo de Ligação",
+    "block.storagenetwork.storage_kabel.guide": "Cada Cabo de Ligação conecta um inventário à rede. Estes são os principais pontos de conexão para estoques em sua rede, sem controles de prioridade ou automação. Atualizar para a  $(l:filter_kabel)versão Filtrada$(/l) ",
+    "block.storagenetwork.export_kabel": "Cabo de Exportação",
+    "block.storagenetwork.export_kabel.guide": "Enquanto conectados a um estoque, esses itens exportam da rede para o estoque de destino. Possui configurações de prioridade para ordem de classificação entre outros cabos de exportação e controle redstone opcional. Aceita atualizações.  ",
+    "block.storagenetwork.import_kabel": "Cabo de Importação",
+    "block.storagenetwork.import_kabel.guide": "Eles importam constantemente do inventário conectado para a rede..  Atualizar para a  $(l:import_filter_kabel)filtered version$(/l) for more automation",
+    "block.storagenetwork.import_filter_kabel": "Cabo de Importação com Filtro",
+    "block.storagenetwork.import_filter_kabel.guide": "Eles são importados constantemente do inventário conectado para a rede.  Eles podem ser personalizados com atualizações, um filtro de item e controles redstone na tela de controle da GUI. Permitir filtro de item significa que apenas os itens que correspondem ao filtro serão aprovados, o modo Ignorar significa puxar qualquer coisa, mas ignorar o que está na lista. Importar o filtro limpa e substitui pelo conteúdo do inventário",
+    "block.storagenetwork.filter_kabel": "Cabo de Ligação com Filtro",
+    "block.storagenetwork.filter_kabel.guide": "Cada Cabo de Ligação conecta um inventário à rede. Possui configurações de prioridade para ordem de classificação entre outros cabos de exportação e aceita atualizações.  ",
+
+    "page.storagenetwork.gs_chunks":"Chunks",
+    "page.storagenetwork.gs_setup":"Configuração da Rede",
+    "page.storagenetwork.gs_priority":"Prioridade",
+    "storagenetwork.guide.getstarted":"Introdução",
+    "storagenetwork.guide.upgrades":"Atualizações",
+    "storagenetwork.guide.upgrades.desc":"As atualizações são usadas em slots do $(l:export_kabel)Cabo de Exportação$(/l) e no $(l:import_filter_kabel)Cabo de Importação com Filtro$(/l)",
+    "storagenetwork.guide.remotes":"Dispositivo Remoto",
+    "storagenetwork.guide.remotes.desc":"Use seu novo dispositivo remoto na $(l:master)Raiz$(/l) para configurar sua ligação de rede. Cada dispositivo remoto está ligado à posição (x,y,z,d) exata de um nó raiz e pode acessar o inventário da rede, desde que a raiz não esteja intacta e em um pedaço carregado. Eles são sem fio com um alcance ilimitado  ",
+    "storagenetwork.guide.blocks":"Blocos",
+    "storagenetwork.guide.blocks.desc":"Todos os blocos de rede se conectam normalmente a qualquer cabo ou bloco de rede e fornecem acesso ou funções diferentes da rede.  ",
+    "storagenetwork.guide.cables":"Cabos",
+    "storagenetwork.guide.cables.desc":"Os cabos unem blocos e nós à rede. Uma rede válida precisa de exatamente um nó  $(l:master)raiz$(/l). Então você vai precisar de pelo menos um inventário com um cabo de $(l:storage_kabel)link$(/l)",
+    "storagenetwork.guide.getstarted.desc":"Várias páginas de guia",
+    "page.storagenetwork.gs_setup.left":"Um breve guia de introdução ao Simple Storage Network. Depois de reunir alguns ingredientes, alguns $(l:kabel)Cabos de Link$(/l) e uma $(l:master)Raiz de Rede$(/l). Sua rede estará funcionando assim que eles forem colocados em seu mundo. Os $(l:storage_kabel)Cabos de Link$(/l) conectarão um baú ou outro inventário à sua rede. Para obter acesso, procure em $(l:inventory_remote)Dispositivos Remotos$(/l) ou $(l:request)Tabelas$(/l). ",
+            "page.storagenetwork.gs_setup.right":"Tente usar o recurso de favoritos",
+            "page.storagenetwork.gs_priority.left":"Os cabos são classificados por prioridade. Se nenhuma GUI for fornecida, por exemplo com $(l:storge_kabel)Cabos de Link$(/l), o valor para esse cabo é zero. Quando o usuário está fazendo uma solicitação de inserção / extração para a rede, ele continuará tentando usar nós de menor prioridade até que a solicitação seja concluída. Para automação de importação / exportação, todos os cabos são processados e a prioridade determina a ordem de cada vez, uma ação de stack por tick por cabo. ",
+            "page.storagenetwork.gs_priority.right":"$(li)Classifique os cabos por prioridade para que os números$(li)mais baixos sejam os primeiros números iguais juntos$(li)Ex: [-2, -2, 0, 0, 1, 2, 4]$(li)Um por um, use os nós nesta ordem ",
+
+        "page.storagenetwork.gs_chunks.left":"Qualquer rede só está funcionando no mundo se seu nó $(l:master)Raiz(/l) estiver em um pedaço carregado do mundo. Cabos de Ponto de Extremidade na rede, como $(l:storage_kabel)Cabos de Link(/l), podem estar em um pedaço diferente da raiz da rede e podem ser desconectados individualmente, dependendo de seu próprio chunk. Você pode ter várias redes por chunk, mundo ou dimensão.   ",
+            "page.storagenetwork.gs_chunks.right":"$(li)Exemplo de propagação: então é possível que uma rede tenha 20 cabos de link, mas 5 estão em um pedaço não carregado. Telas / dispositivos remotos de rede ainda serão abertos desde que a raiz seja carregada, qualquer conteúdo desses cabos descarregados não será visto. $(li)Exemplo dispositivos remotos: eu construo minha rede de armazenamento longe de $(t:que estão sempre carregados)chunks de spawn$(/t), em uma base oceânica distante. Quando eu vou para o nether, os chunks de overworld com o bloco Raiz são descarregados, então meus $(l:inventory_remote)dispositivos remotos(/l) não podem se conectar",
+ 	
+    "block.storagenetwork.master": "Raiz de Rede",
+    "block.storagenetwork.master.tooltip": "Use apenas um por rede.",
+    "block.storagenetwork.master.guide": "The main heart of the network. Only ONE per network, Placing more will cause one of them to break, and may cause network connection issues for remotes and cables.  Moving the root node to a new place will break the network, interrupting imports, exports, and remotes.  Multiple networks per world and dimension are fine as long as they are not connected to each other.",
+    
+    "block.storagenetwork.request": "Tabela de Solicitação",
+    "block.storagenetwork.request.guide": "Vê o inventário da rede com acesso total para rolar, retirar e depositar itens. Grade de fabricação personalizada que extrai ingredientes da rede. Veja a  $(l:crafting_remote)versão remota aqui$(/l)  ",
+    "block.storagenetwork.request.tooltip": "Usado para visualizar e solicitar itens da rede.",
+    
+    "block.storagenetwork.inventory": "Inventário de Armazenamento",
+    "block.storagenetwork.inventory.guide":  "Views the network inventory with full access to scroll, withdraw, and deposit items.  See the $(l:inventory_remote)Remote version here$(/l)  ",
+    "block.storagenetwork.inventory.tooltip": "Acesso ao inventário sem uma grade de fabricação",
+    
+    "block.storagenetwork.exchange": "Interface de Troca de Rede",
+    "block.storagenetwork.exchange.guide": "Isso expõe a rede e atua como um controlador para outros sistemas de automação ou soluções de armazenamento. Por exemplo, um Funil normal colocado apontando para uma interface de troca em uma rede e inserirá os itens em slots de rede válidos normalmente, semelhante ao $(l:import_kabel)Cabo de Importação$(/l). Um Funil abaixo exportará itens arbitrários. Experimente isso com outros mods de armazenamento!  ",
+    "block.storagenetwork.exchange.tooltip": "Ponto de Extremidade da rede para conexões de inventário",
+
+    "block.storagenetwork.collector": "Interface de Coleta de Rede",
+    "block.storagenetwork.collector.guide":  "Isso expõe a rede e atua como um controlador somente de inserção para outros sistemas de automação ou soluções de armazenamento. Por exemplo, um Funil normal colocado apontando para uma interface de troca em uma rede e inserirá os itens em slots de rede válidos normalmente, semelhante ao $(l:import_kabel)Cabo de Importação$(/l). Não permite a extração de nenhum item. Experimente isso com outros mods de armazenamento!  ",
+    "block.storagenetwork.collector.tooltip": "Os itens inseridos entram na rede",
+    
+    "item.storagenetwork.speed_upgrade": "Atualização de Velocidade",
+    "item.storagenetwork.speed_upgrade.guide": "Esta atualização pode ser colocada em cabos. Aumenta a velocidade das importações, o que normalmente não acontece a cada tick",
+    "item.storagenetwork.speed_upgrade.tooltip": "Aumenta a velocidade de importação/exportação.",
+    "item.storagenetwork.operation_upgrade": "Atualização de Operação",
+    
+    "item.storagenetwork.stack_upgrade": "Atualização de Stack",
+    "item.storagenetwork.stack_upgrade.tooltip": "Aumenta o tamanho da Stack de tranferidos.",
+    "item.storagenetwork.stack_upgrade.guide": "Esta atualização pode ser colocada nos cabos de importação ou exportação. Aumenta para puxar um stack completo de até 64 toda vez que o cabo dispara, em vez de apenas alguns itens",
+     
+    "item.storagenetwork.stock_upgrade": "Atualização de Estoque",
+    
+    "tooltip.storagenetwork.upgrade_1": "A atividade do cabo depende da quantidade de itens.",
+    "tooltip.storagenetwork.upgrade_3": "Mantém uma quantidade específica de itens no estoque anexado (apenas no cabo de exportação).",
+
+    "item.storagenetwork.builder_remote": "Dispositivo Remoto de Construção",
+    "item.storagenetwork.builder_remote.tooltip": "Ligua-se a uma rede e a um bloco para construir",
+    "item.storagenetwork.builder_remote.guide": "Este dispositivo remoto liga normalmente, mas não tem uma tela. Em vez disso, ele procura o bloco em que você clicou e tenta construí-lo usando um item correspondente na rede",
+    "item.storagenetwork.builder_remote.blockstate": "Nenhum bloco selecionado; agache-se e use",
+
+    "item.storagenetwork.inventory_remote": "Dispositivo Remoto de Armazenamento",
+    "item.storagenetwork.inventory_remote.tooltip": "Use na Raiz da rede para acesso remoto ao inventário.",
+    "item.storagenetwork.inventory_remote.guide": "Acesso remoto total à rede, não limitado por alcance ou dimensão. Semelhante ao $(l:inventory)Inventário de Armazenamento$(/l)",
+    
+    "item.storagenetwork.crafting_remote": "Dispositivo Remoto de Fabricação",
+    "item.storagenetwork.crafting_remote.tooltip": "Use na Raiz da rede para acesso remoto ao inventário.",
+    "item.storagenetwork.crafting_remote.guide": "Acesso total à rede, não limitado por alcance ou dimensão. Possui uma grade de fabricação integrada. Semelhante à $(l:request)Tabela de Solicitação$(/l)",
+    
+    "item.storagenetwork.picker_remote": "Dispositivo Remoto Seleção",
+    "item.storagenetwork.picker_remote.tooltip": "Uma vez conectado, tocar em um bloco irá puxar os blocos correspondentes do inventário",
+    "item.storagenetwork.picker_remote.guide": "Este dispositivo remoto liga normalmente, mas não tem uma tela. Em vez disso, toque este item em um bloco. Isso solicitará um bloco ou uma stack completo desse bloco, dependendo se você estiver agachado.  ",
+    "item.storagenetwork.collector_remote": "Dispositivo Remoto Coleta",
+    "item.storagenetwork.collector_remote.tooltip": "Uma vez conectado, irá mover todos os itens coletados para a rede",
+    "item.storagenetwork.collector_remote.guide": "Vincule-o à rede normalmente. Este dispositivo remoto funciona em qualquer lugar em seu inventário, sem necessidade de segurá-lo na mão ou hotbar. Quando você pegar qualquer item, esse item será inserido na rede, se possível.",
+    
+    "block.storagenetwork.recipe.invalid": "Transação inválida:",
+    "block.storagenetwork.recipe.invalidleft": "Definir entrada à esquerda",
+    "block.storagenetwork.recipe.invalidright": "Definir saída à direita",
+    "block.storagenetwork.recipe.valid": "Transação válida",
+    
+    "item.remote.found": "Item encontrado, extraindo...",
+    "item.remote.notfound.item": "Item não encontrado na rede",
+    "item.remote.notfound": "Rede não encontrada, certifique-se de que a Chunk está carregado",
+    "item.remote.notconnected": "O dispodsitivo remoto não está conectado, ligue-o ao nó da rede principal primeiro",
+    "item.remote.connected": "O dispodsitivo remoto se conectou à rede",
+    "item.remote.outofrange": "Fora de alcance",
+    "item.remote.notloaded": "Chunk não carregada",
+
+    "gui.storagenetwork.operate.tooltip": "%s é ativo se %s do que %d %s estão na rede.",
+    "gui.storagenetwork.operate.tooltip.more": "mais",
+    "gui.storagenetwork.operate.tooltip.less": "menos",
+
+    "gui.storagenetwork.refresh": "Atualize as transações de processamento, de modo que se ele ficar preso esperando por um resultado, isso o mudará de volta para o modo de receita para reunir ingredientes.",
+
+    "gui.storagenetwork.checkbox.meta": "Meta",
+    "gui.storagenetwork.checkbox.ore": "OreDict",
+    "gui.storagenetwork.checkbox.nbt": "NBT",
+
+    "gui.storagenetwork.import": "Importar conteúdo como filtro",
+    "gui.storagenetwork.allowlist": "Lista de Permitidos",
+    "gui.storagenetwork.ignorelist": "Lista de Ignorados",
+    
+    "gui.storagenetwork.redstone.false":"Sempre Ligado",
+    "gui.storagenetwork.redstone.true":"Requer Redstone",
+    
+    "gui.storagenetwork.sort": "Ordem de classificação",
+    "gui.storagenetwork.priority.up": "Rebaixar a prioridade (o menor vai primeiro)",
+    "gui.storagenetwork.priority.down": "Promova a prioridade (o menor vai primeiro)",
+
+    "gui.storagenetwork.req.tooltip_name": "Organizar por nome",
+    "gui.storagenetwork.req.tooltip_mod": "Organizar por mod",
+    "gui.storagenetwork.req.tooltip_amount": "Organizar por quantidade",
+    
+    "gui.storagenetwork.shift": "Segure shift para mais informações.",
+    "gui.storagenetwork.fil.tooltip_in": "Só entrada",
+    "gui.storagenetwork.fil.tooltip_out": "Só saída",
+    "gui.storagenetwork.fil.tooltip_both": "Entrada e saída",  
+    "gui.storagenetwork.fil.tooltip_mod": "Prefixo @: Pesquisa por mod.",
+    "gui.storagenetwork.fil.tooltip_tooltip": "Prefixo #: Pesquisa por tooltip.",
+    "gui.storagenetwork.fil.tooltip_tags": "Prefixo $: Procure por tags de bloco.",
+    "gui.storagenetwork.fil.tooltip_clear": "Limpar o texto com um clique com o botão direito",
+
+    "gui.storagenetwork.tooltip_clear": "Limpar pesquisa",
+    "gui.storagenetwork.fil.tooltip_jei_on": "Pesquisa JEI habilitada",
+    "gui.storagenetwork.fil.tooltip_jei_off": "Pesquisa JEI desahabilitada",
+
+    "block.storagenetwork.kabel.tooltip": "Cabo de rede básico ",
+    "block.storagenetwork.storage_kabel.tooltip": "Usado para conectar o inventário à rede.",
+    "block.storagenetwork.export_kabel.tooltip": "Exporta itens da rede para o estoque anexado.",
+    "block.storagenetwork.import_kabel.tooltip": "Importa todos os itens do inventário anexado para a rede.",
+    "block.storagenetwork.filter_kabel.tooltip": "Link de inventário com opções de filtragem.",
+    "block.storagenetwork.import_filter_kabel.tooltip": "Importa itens com opções de filtragem.",
+   
+    
+    "tooltip.storagenetwork.kabel_P": "Pode automatizar transações de processamento simples.",
+
+    "block.storagenetwork.controller": "Controlador",
+    "block.storagenetwork.controller.tooltip": "Gerenciar todos os cabos de processamento na rede",
+
+    "chat.main.emptyslots": "Possíveis slots vazios: ",
+    "chat.main.connectables": "Conectáveis: ",
+    
+    "key.storagenetwork.remote":"Dispositivo Remoto Curio",
+ 
+
+    "processing.buttons.toggle.true": "Sempre Ativo",
+    "processing.buttons.toggle.false": "Processe apenas o número do pedido",
+    "processing.buttons.minus": "Redução Solicitada",
+    "processing.buttons.plus": "Aumento Solicitado",
+    "processing.empty.ingredients": "Ingredientes Vazios",
+
+    "gui.storagenetwork.processing.recipe": "Ingredientes para cada ciclo serão enviados como se viessem deste lado do bloco",
+    "gui.storagenetwork.processing.extract": "Ao extrair os resultados do processamento, será obtido como se fosse deste lado do bloco",
+    "gui.storagenetwork.": "Tooltip nova vai aqui"
+}

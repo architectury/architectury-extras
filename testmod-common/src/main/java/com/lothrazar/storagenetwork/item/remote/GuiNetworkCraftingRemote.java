@@ -1,0 +1,267 @@
+/*
+ * This file is part of architectury, licensed under the MIT License.
+ * Copyright (c) 2017 - Original Author is MrRiegel as seen here https://github.com/MrRiegel
+ * - Secondary author  Sam Bassett aka Lothrazar https://minecraft.curseforge.com/members/Lothrazar
+ * Copyright (c) 2020, 2021, 2022 architectury
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.lothrazar.storagenetwork.item.remote;
+
+import com.lothrazar.storagenetwork.StorageNetwork;
+import com.lothrazar.storagenetwork.api.EnumSortType;
+import com.lothrazar.storagenetwork.api.IGuiNetwork;
+import com.lothrazar.storagenetwork.gui.NetworkWidget;
+import com.lothrazar.storagenetwork.network.ClearRecipeMessage;
+import com.lothrazar.storagenetwork.network.RequestMessage;
+import com.lothrazar.storagenetwork.network.SettingsSyncMessage;
+import com.lothrazar.storagenetwork.registry.ConfigRegistry;
+import com.lothrazar.storagenetwork.registry.PacketRegistry;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.architectury.platform.Platform;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+
+public class GuiNetworkCraftingRemote extends AbstractContainerScreen<ContainerNetworkCraftingRemote> implements IGuiNetwork {
+    
+    private static final int KEY_BACKSPACE = 259;
+    private static final int KEY_ESC = 256;
+    private static final int HEIGHT = 256;
+    private static final int WIDTH = 176;
+    private final ResourceLocation textureCraft = new ResourceLocation(StorageNetwork.MODID, "textures/gui/request.png");
+    private final NetworkWidget network;
+    private final ItemStack remote;
+    private int topOffset;
+    
+    public GuiNetworkCraftingRemote(ContainerNetworkCraftingRemote screenContainer, Inventory inv, Component titleIn) {
+        super(screenContainer, inv, titleIn);
+        //since the rightclick action forces only MAIN_HAND openings, is ok
+        this.remote = screenContainer.getRemote();// inv.player.getItemInHand(InteractionHand.MAIN_HAND);
+        network = new NetworkWidget(this);
+        network.setLines(4);
+        this.imageWidth = WIDTH;
+        this.imageHeight = HEIGHT;
+        network.fieldHeight = 90;
+    }
+    
+    @Override
+    public void drawGradient(PoseStack ms, int x, int y, int x2, int y2, int u, int v) {
+        super.fillGradient(ms, x, y, x2, y2, u, v);
+    }
+    
+    @Override
+    public void renderStackTooltip(PoseStack ms, ItemStack stack, int mousex, int mousey) {
+        super.renderTooltip(ms, stack, mousex, mousey);
+    }
+    
+    @Override
+    public void setStacks(List<ItemStack> stacks) {
+        network.stacks = stacks;
+    }
+    
+    @Override
+    public boolean isJeiSearchSynced() {
+        return ItemStorageCraftingRemote.isJeiSearchSynced(remote);
+    }
+    
+    @Override
+    public void setJeiSearchSynced(boolean val) {
+        ItemStorageCraftingRemote.setJeiSearchSynced(remote, val);
+    }
+    
+    @Override
+    public boolean getDownwards() {
+        return ItemStorageCraftingRemote.getDownwards(remote);
+    }
+    
+    @Override
+    public boolean getAutoFocus() {
+        return ItemStorageCraftingRemote.getAutoFocus(remote);
+    }
+    
+    @Override
+    public void setAutoFocus(boolean b) {
+        ItemStorageCraftingRemote.setAutoFocus(remote, b);
+    }
+    
+    @Override
+    public void setDownwards(boolean val) {
+        ItemStorageCraftingRemote.setDownwards(remote, val);
+    }
+    
+    @Override
+    public EnumSortType getSort() {
+        return ItemStorageCraftingRemote.getSort(remote);
+    }
+    
+    @Override
+    public void setSort(EnumSortType val) {
+        ItemStorageCraftingRemote.setSort(remote, val);
+    }
+    
+    @Override
+    public int getGuiTop() {
+        return topPos;
+    }
+    
+    @Override
+    public int getGuiLeft() {
+        return leftPos;
+    }
+    
+    @Override
+    public int getGuiTopFixJei() {
+        return getGuiTop() + topOffset;
+    }
+    
+    @Override
+    public void init() {
+        super.init();
+        if (Platform.isModLoaded("jei") &&
+                ConfigRegistry.JEINEGATIVECRASH && this.topPos < 0) {
+            this.topOffset = topPos;
+            this.topPos = 0;//If the window size is below the image size then it'll produce negative values which JEI will crash on
+        }
+        int searchLeft = leftPos + 81, searchTop = getGuiTopFixJei() + 160, width = 85;
+        searchTop = topPos + 96;
+        network.searchBar = new EditBox(font,
+                searchLeft, searchTop,
+                width, font.lineHeight, null);
+        network.searchBar.setMaxLength(30);
+        network.initSearchbar();
+        network.initButtons();
+        addRenderableWidget(network.directionBtn);
+        addRenderableWidget(network.sortBtn);
+        addRenderableWidget(network.focusBtn);
+        if (this.getAutoFocus()) {
+            network.searchBar.setFocus(true);
+        }
+        if (Platform.isModLoaded("jei")) {
+            addRenderableWidget(network.jeiBtn);
+        }
+    }
+    
+    @Override
+    public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(ms);
+        super.render(ms, mouseX, mouseY, partialTicks);
+        this.renderTooltip(ms, mouseX, mouseY); //      this.renderHoveredToolTip(mouseX, mouseY);
+        network.searchBar.render(ms, mouseX, mouseY, partialTicks);
+        network.render();
+    }
+    
+    @Override
+    protected void renderBg(PoseStack ms, float partialTicks, int mouseX, int mouseY) {
+        //    this.minecraft.getTextureManager().bind(textureCraft);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, textureCraft);
+        int k = (this.width - this.imageWidth) / 2;
+        int l = (this.height - this.imageHeight) / 2;
+        this.blit(ms, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        network.applySearchTextToSlots();
+        network.renderItemSlots(ms, mouseX, mouseY, font);
+    }
+    
+    @Override
+    public void renderLabels(PoseStack ms, int mouseX, int mouseY) {
+        network.drawGuiContainerForegroundLayer(ms, mouseX, mouseY, font);
+    }
+    
+    boolean isScrollable(double x, double y) {
+        int scrollHeight = 135;
+        return isHovering(0, 0,
+                this.width - 8, scrollHeight,
+                x, y);
+    }
+    
+    @Override
+    public boolean mouseScrolled(double x, double y, double mouseButton) {
+        super.mouseScrolled(x, y, mouseButton);
+        //<0 going down
+        // >0 going up
+        if (isScrollable(x, y) && mouseButton != 0) {
+            network.mouseScrolled(mouseButton);
+        }
+        return true;
+    }
+    
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        network.mouseClicked(mouseX, mouseY, mouseButton);
+        //recipe clear thingy
+        //TODO: network needs isCrafting and isPointInRegion access to refactor
+        // OR make real button lol
+        int rectX = 63;
+        int rectY = 110;
+        if (isHovering(rectX, rectY, 7, 7, mouseX, mouseY)) {
+            PacketRegistry.INSTANCE.sendToServer(new ClearRecipeMessage());
+            PacketRegistry.INSTANCE.sendToServer(new RequestMessage(0, ItemStack.EMPTY, false, false));
+            return true;
+        }
+        return true;
+    }
+    
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int b) {
+        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
+        if (keyCode == KEY_ESC) {
+            minecraft.player.closeContainer();
+            return true; // Forge MC-146650: Needs to return true when the key is handled.
+        }
+        if (network.searchBar.isFocused()) {
+            if (keyCode == KEY_BACKSPACE) { // BACKSPACE
+                network.syncTextToJei();
+            }
+            network.searchBar.keyPressed(keyCode, scanCode, b);
+            return true;
+        }
+        //Regardless of above branch, also check this
+        if (minecraft.options.keyInventory.matches(keyCode, scanCode)) {
+            minecraft.player.closeContainer();
+            return true; // Forge MC-146650: Needs to return true when the key is handled.
+        }
+        return super.keyPressed(keyCode, scanCode, b);
+    }
+    
+    @Override
+    public boolean charTyped(char typedChar, int keyCode) {
+        return network.charTyped(typedChar, keyCode);
+    }
+    
+    @Override
+    public boolean isInRegion(int x, int y, int width, int height, double mouseX, double mouseY) {
+        return super.isHovering(x, y, width, height, mouseX, mouseY);
+    }
+    
+    @Override
+    public void syncDataToServer() {
+        PacketRegistry.INSTANCE.sendToServer(new SettingsSyncMessage(null, getDownwards(), getSort(), this.isJeiSearchSynced(), this.getAutoFocus()));
+    }
+}

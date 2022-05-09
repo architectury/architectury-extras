@@ -1,0 +1,15 @@
+{
+  "name": "item.storagenetwork.slow_upgrade",
+  "icon": "storagenetwork:slow_upgrade",
+  "category": "storagenetwork:upgrades",
+  "pages": [
+    {
+      "type": "text",
+      "text": "item.storagenetwork.slow_upgrade.guide"
+    },
+    {
+      "type": "crafting",
+      "recipe": "storagenetwork:slow_upgrade"
+    }
+  ]
+}

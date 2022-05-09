@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "storagenetwork",
+  "version": "${version}",
+  "name": "Simple Storage Network",
+  "description": "Storage Network to connect inventories to search and craft",
+  "authors": [
+    "shedaniel",
+    "Lothrazar",
+    "MrRiegel"
+  ],
+  "license": "LGPL-3",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.lothrazar.storagenetwork.fabric.StorageNetworkFabric"
+    ]
+  }
+}

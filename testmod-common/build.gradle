@@ -1,0 +1,15 @@
+dependencies {
+    // We depend on fabric loader here to use the fabric @Environment annotations
+    // Do NOT use other classes from fabric loader
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
+    implementation project(path: ":common", configuration: "namedElements")
+    implementation project(path: ":common", configuration: "transferBase")
+    implementation project(path: ":common", configuration: "transferItem")
+    implementation project(path: ":common", configuration: "transferFluid")
+    implementation project(path: ":common", configuration: "transferEnergy")
+}
+
+architectury {
+    common(rootProject.forgeEnabled.toBoolean())
+}

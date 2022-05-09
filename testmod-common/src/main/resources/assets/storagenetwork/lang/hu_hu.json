@@ -1,0 +1,113 @@
+{
+    "itemGroup.storagenetwork": "Egyszerű Hálózati Tároló (Simple Storage Network)",
+    "block.storagenetwork.kabel": "Hálózati kábel",
+    "block.storagenetwork.storage_kabel": "Kapcsoló kábel",
+    "block.storagenetwork.export_kabel": "Export kábel",
+    "block.storagenetwork.import_kabel": "Import kábel",
+    "block.storagenetwork.import_filter_kabel": "Szűrt importáló kábel",
+    "block.storagenetwork.filter_kabel": "Szűrt hálózati kábel",
+    "block.storagenetwork.process_kabel": "Feldolgozó kábel",
+
+    "block.storagenetwork.master": "Hálózati tároló gyökér",
+    "block.storagenetwork.master.tooltip": "A szíve-lelke a hálózatnak. Csak EGY hálózatonként.",
+    
+    "block.storagenetwork.request": "Kérvényező asztal",
+    "block.storagenetwork.request.tooltip": "Tárgyak áttekintése és kérvényzezése a hálózatról.",
+    
+    "block.storagenetwork.inventory": "Felszerelés Tároló",
+    "block.storagenetwork.inventory.tooltip": "Eszköztár hozzáférés barkácsasztal nélkül.",
+    
+    "item.storagenetwork.speed_upgrade": "Gyorsaság fejlesztés",
+    "item.storagenetwork.operation_upgrade": "Művelet fejlesztés",
+    "item.storagenetwork.stack_upgrade": "Halmozási fejlesztés",
+    "item.storagenetwork.stock_upgrade": "Készlet fejlesztés",
+    "tooltip.storagenetwork.upgrade_0": "Megnöveli az importálás/exportálás sebességét.",
+    "tooltip.storagenetwork.upgrade_1": "A kábel aktivitása a darabszámtól függ.",
+    "tooltip.storagenetwork.upgrade_2": "Megnöveli a készlet méretét a feladatnak.",
+    "tooltip.storagenetwork.upgrade_3": "Meghatározott mennyiségű tárgyakat tárol a hozzácsatlakoztatott eszköztáron (csak az export kábelben).",
+
+    "item.storagenetwork.inventory_remote": "Távirányító",
+    "item.storagenetwork.crafting_remote": "Távirányító barkácsolóval",
+
+    "block.storagenetwork.recipe.invalid": "Érvénytelen recept:",
+    "block.storagenetwork.recipe.invalidleft": "Bemenet állítása a bal oldalra",
+    "block.storagenetwork.recipe.invalidright": "Kimenet állítása a jobb oldalra",
+    "block.storagenetwork.recipe.valid": "Érvényes recept",
+
+    "item.remote.notconnected": "A távirányító nincs csatlakoztatva, kösd össze a hálózati tároló gyökérrel először.",
+    "item.remote.connected": "Távirányító csatlakoztatva a hálózathoz",
+    "item.remote.outofrange": "Hatótávolságon kívül",
+    "item.remote.notloaded": "Chunk nincs betöltve",
+
+    "gui.storagenetwork.operate.tooltip": "Aktív ha %s mint %d %s van a hálózatban",
+    "gui.storagenetwork.operate.tooltip.more": "több",
+    "gui.storagenetwork.operate.tooltip.less": "kevesebb",
+
+    "gui.storagenetwork.refresh": "Feldolgozó műveletek frissítése, amennyiben várakozik az eredményre, vissza fog váltani recept módra, hogy összegyűjtse a hozzávalókat.",
+
+    "gui.storagenetwork.checkbox.meta": "Meta",
+    "gui.storagenetwork.checkbox.ore": "OreDict",
+    "gui.storagenetwork.checkbox.nbt": "NBT",
+
+    "gui.storagenetwork.import": "Importálja a tartalmat szűrőként",
+    "gui.storagenetwork.allowlist": "Engedélyezett lista",
+    "gui.storagenetwork.ignorelist": "Mellőzési lista",
+
+    "gui.storagenetwork.sort": "Rendezési irány",
+    "gui.storagenetwork.priority.up": "Demote Priority (kisebb megy először)",
+    "gui.storagenetwork.priority.down": "Promote Priority (kisebb megy először)",
+
+    "gui.storagenetwork.req.tooltip_NAME": "Név szerinti rendezés",
+    "gui.storagenetwork.req.tooltip_MOD": "Mod szerinti rendezés",
+    "gui.storagenetwork.req.tooltip_AMOUNT": "Mennyiség szerinti rendezés",
+
+    "gui.storagenetwork.fil.tooltip_IN": "Csak bemenet",
+    "gui.storagenetwork.fil.tooltip_OUT": "Csak kimenet",
+    "gui.storagenetwork.fil.tooltip_BOTH": "Bemenet és kimenet",
+
+    "gui.storagenetwork.shift": "Tartsd lenyomva a shift-et a további leíráshoz.",
+
+    "gui.storagenetwork.fil.tooltip_0": "Előtag @: Mod keresése.",
+    "gui.storagenetwork.fil.tooltip_1": "Előtag #: Segítő ablak keresése.",
+    "gui.storagenetwork.fil.tooltip_2": "Előtag $: Blokkcímkék keresése.",
+    "gui.storagenetwork.fil.tooltip_3": "Szöveg törlése jobb kattintással",
+
+    "gui.storagenetwork.tooltip_clear": "Keresés törlése",
+    "gui.storagenetwork.fil.tooltip_jei_on": "JEI keresés enegedélyezve",
+    "gui.storagenetwork.fil.tooltip_jei_off": "JEI keresés letiltva",
+
+    "block.storagenetwork.kabel.tooltip": "Egyszerű hálózati kábel ",
+    "block.storagenetwork.storage_kabel.tooltip": "Eszköztárak csatlakoztatása a hálózatra.",
+    "block.storagenetwork.export_kabel.tooltip": "Exportálja a tárgyakat a hálózatról a hozzácsatlakoztatott eszköztárba.",
+    "block.storagenetwork.import_kabel.tooltip": "Importálja a tárgyakat a hozzácsatlakoztatott eszköztárról a hálózatra.",
+    "block.storagenetwork.filter_kabel.tooltip": "Felszerelés összekapcsolása szűrési beállításokkal.",
+    "block.storagenetwork.import_filter_kabel.tooltip": "Tárgyak importálása szűrési beállításokkal.",
+    
+    
+    "tooltip.storagenetwork.kabel_P": "Egyszerű feldolgozási műveleteket automatizál.",
+         
+    "item.storagenetwork.inventory_remote.tooltip": "Használd a hálózati gyökér tárolón a távoli felszerelés megnyitásához.",
+    "item.storagenetwork.crafting_remote.tooltip": "Használd a hálózati gyökér tárolón a távoli felszerelés megnyitásához.",
+
+    "block.storagenetwork.controller": "Vezérlő",
+    "block.storagenetwork.controller.tooltip": "Feldolgozó kábelek kezelése a hálózaton",
+
+    "chat.master.emptyslots": "Lehetséges üres rekeszek: ",
+    "chat.master.connectables": "Csatlakoztathatók: ",
+    "processing.alwayson.true": "Aktív",
+    "processing.alwayson.false": "Hátralék: ",
+
+    "storagenetwork.process.status0": "Megállítva vagy letiltva",
+    "storagenetwork.process.status1": "Importálásra vár (gyorsítótárazva)",
+    "storagenetwork.process.status2": "Recept exportálása (gyorsítótárazva)",
+
+    "processing.buttons.toggle.true": "Mindig aktív",
+    "processing.buttons.toggle.false": "Csak a kérelmezett mennyiséget dolgozza fel",
+    "processing.buttons.minus": "Kérelem csökkentése",
+    "processing.buttons.plus": "Kérelem növelése",
+    "processing.empty.ingredients": "Üres hozzávalók",
+
+    "gui.storagenetwork.processing.recipe": "Hozzzávalók küldésre kerülnek ciklusonként, ahogy érkeznek a blokk oldalról",
+    "gui.storagenetwork.processing.extract": "Amikor a feldolgozott eredményeket húzza be, erről a blokk oldalról lesz befogadva",
+    "gui.storagenetwork.": "Segítő ablak új dolgai jönnek ide"
+}

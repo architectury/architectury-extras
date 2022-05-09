@@ -1,0 +1,23 @@
+{
+
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " c ",
+    "gig",
+	" c "
+  ],
+  "key": {
+    "c": {
+      "tag": "forge:dusts/redstone"
+    },
+    "i":  {
+	  "item": "storagenetwork:kabel"
+	},
+    "g":  {
+	  "item": "minecraft:gold_ingot"
+	}
+  },
+  "result": {
+    "item": "storagenetwork:speed_upgrade"
+  }
+}

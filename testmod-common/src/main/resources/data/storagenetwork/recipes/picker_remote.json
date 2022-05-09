@@ -1,0 +1,20 @@
+{
+
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " i ",
+    "imi",
+  	" i "
+  ],
+  "key": {
+    "i":  {
+	  "item": "storagenetwork:kabel"
+	},
+    "m":  {
+	  "item": "storagenetwork:inventory_remote"
+	}
+  },
+  "result": {
+    "item": "storagenetwork:picker_remote"
+  }
+}
