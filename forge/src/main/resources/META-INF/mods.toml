@@ -4,7 +4,7 @@ issueTrackerURL = "https://github.com/architectury/architectury-extras/issues"
 license = "GNU LGPLv3"
 
 [[mods]]
-modId = "architectury-extras"
+modId = "architectury_extras"
 version = "${version}"
 displayName = "Architectury Extras"
 authors = "shedaniel"
@@ -14,21 +14,21 @@ Extra APIs for Architectury.
 logoFile = "icon.png"
 license = "LGPL-3"
 
-[[dependencies.architectury-extras]]
+[[dependencies.architectury_extras]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.18.2,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.architectury-extras]]
+[[dependencies.architectury_extras]]
 modId = "forge"
 mandatory = true
 versionRange = "[38.0.17,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.architectury-extras]]
+[[dependencies.architectury_extras]]
 modId = "architectury"
 mandatory = true
 versionRange = "[4.0,)"

@@ -36,11 +36,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockCableIO extends BlockCable {
-    
-    public BlockCableIO(String registryName) {
-        super(registryName);
-    }
-    
     @Override
     public RenderShape getRenderShape(BlockState bs) {
         return RenderShape.MODEL;

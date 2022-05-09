@@ -36,11 +36,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockCableLink extends BlockCable {
-    
-    public BlockCableLink(String registryName) {
-        super(registryName);
-    }
-    
     @Override
     public RenderShape getRenderShape(BlockState bs) {
         return RenderShape.MODEL;

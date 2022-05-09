@@ -26,7 +26,6 @@
 package com.lothrazar.storagenetwork.registry;
 
 import com.lothrazar.storagenetwork.StorageNetwork;
-import com.lothrazar.storagenetwork.block.BaseBlock;
 import com.lothrazar.storagenetwork.block.cable.BlockCable;
 import com.lothrazar.storagenetwork.block.cable.TileCable;
 import com.lothrazar.storagenetwork.block.cable.export.BlockCableExport;
@@ -80,7 +79,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class SsnRegistry {
@@ -140,28 +138,24 @@ public class SsnRegistry {
     public static class RegistryEvents {
         public static void init() {
             Registries registries = Registries.get(StorageNetwork.MODID);
-            registries.forRegistry(Registry.BLOCK_REGISTRY, registrar -> {
-                onBlocksRegistry(baseBlock -> {
-                    registrar.register(baseBlock.getRegistryName(), () -> baseBlock);
-                });
-            });
+            onBlocksRegistry(registries.get(Registry.BLOCK_REGISTRY));
             onItemsRegistry(registries.get(Registry.ITEM_REGISTRY));
             onTileEntityRegistry(registries.get(Registry.BLOCK_ENTITY_TYPE_REGISTRY));
             onContainerRegistry(registries.get(Registry.MENU_REGISTRY));
         }
         
-        public static void onBlocksRegistry(Consumer<BaseBlock> r) {
-            r.accept(new BlockMain());
-            r.accept(new BlockRequest());
-            r.accept(new BlockCable("kabel"));
-            r.accept(new BlockCableLink("storage_kabel"));
-            r.accept(new BlockCableIO("import_kabel"));
-            r.accept(new BlockCableImportFilter("import_filter_kabel"));
-            r.accept(new BlockCableFilter("filter_kabel"));
-            r.accept(new BlockCableExport("export_kabel"));
-            r.accept(new BlockInventory("inventory"));
-            r.accept(new BlockExchange());
-            r.accept(new BlockCollection());
+        public static void onBlocksRegistry(Registrar<Block> r) {
+            r.register(new ResourceLocation(StorageNetwork.MODID, "master"), BlockMain::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "request"), BlockRequest::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "kabel"), BlockCable::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "storage_kabel"), BlockCableLink::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "import_kabel"), BlockCableIO::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "import_filter_kabel"), BlockCableImportFilter::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "filter_kabel"), BlockCableFilter::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "export_kabel"), BlockCableExport::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "inventory"), BlockInventory::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "exchange"), BlockExchange::new);
+            r.register(new ResourceLocation(StorageNetwork.MODID, "collector"), BlockCollection::new);
         }
         
         public static void onItemsRegistry(Registrar<Item> r) {
@@ -230,10 +224,10 @@ public class SsnRegistry {
             r.register(new ResourceLocation(StorageNetwork.MODID, "inventory"), () -> MenuRegistry.ofExtended((windowId, inv, data) -> {
                 return new ContainerNetworkInventory(windowId, inv.player.level, data.readBlockPos(), inv, inv.player);
             }));
-            r.register(new ResourceLocation(StorageNetwork.MODID, "inventory_remote"), () -> MenuRegistry.of((windowId, inv) -> {
+            r.register(new ResourceLocation(StorageNetwork.MODID, "inventory_remote"), () -> new MenuType<>((windowId, inv) -> {
                 return new ContainerNetworkRemote(windowId, inv.player.getInventory());
             }));
-            r.register(new ResourceLocation(StorageNetwork.MODID, "crafting_remote"), () -> MenuRegistry.of((windowId, inv) -> {
+            r.register(new ResourceLocation(StorageNetwork.MODID, "crafting_remote"), () -> new MenuType<>((windowId, inv) -> {
                 return new ContainerNetworkCraftingRemote(windowId, inv.player.getInventory());
             }));
         }

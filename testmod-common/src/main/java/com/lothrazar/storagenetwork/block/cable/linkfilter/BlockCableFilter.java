@@ -42,11 +42,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class BlockCableFilter extends BlockCable {
-    
-    public BlockCableFilter(String registryName) {
-        super(registryName);
-    }
-    
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new TileCableFilter(pos, state);

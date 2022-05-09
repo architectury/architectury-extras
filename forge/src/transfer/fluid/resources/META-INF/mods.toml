@@ -1,0 +1,7 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "GNU LGPLv3"
+
+[[mods]]
+modId = "architectury_extras_transfer_fluid"
+license = "LGPL-3"

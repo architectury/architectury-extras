@@ -304,7 +304,7 @@ public class TileMain extends BlockEntity {
                     continue;
                 }
                 // The given import-capable storage can not import this particular stack
-                if (storage.insertStack(stack, true).getCount() >= stack.getCount()) {
+                if (storage.insertStack(stack, true).getCount() > stack.getCount()) {
                     continue;
                 }
                 // If it can we need to know, i.e. store the remainder

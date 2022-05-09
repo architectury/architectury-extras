@@ -69,8 +69,8 @@ public class BlockCable extends BaseBlock implements SimpleWaterloggedBlock {
     
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     
-    public BlockCable(String registryName) {
-        super(Block.Properties.of(Material.STONE).strength(0.2F), registryName);
+    public BlockCable() {
+        super(Block.Properties.of(Material.STONE).strength(0.2F));
         registerDefaultState(stateDefinition.any()
                 .setValue(NORTH, EnumConnectType.NONE).setValue(EAST, EnumConnectType.NONE)
                 .setValue(SOUTH, EnumConnectType.NONE).setValue(WEST, EnumConnectType.NONE)

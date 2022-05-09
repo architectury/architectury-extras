@@ -44,7 +44,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class BlockRequest extends BaseBlock {
     
     public BlockRequest() {
-        super(Material.METAL, "request");
+        super(Material.METAL);
     }
     
     @Override

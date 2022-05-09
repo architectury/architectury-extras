@@ -9,7 +9,7 @@
     "Lothrazar",
     "MrRiegel"
   ],
-  "license": "LGPL-3",
+  "license": "MIT",
   "environment": "*",
   "entrypoints": {
     "main": [

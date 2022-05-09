@@ -31,7 +31,12 @@ public interface BlockLookup<T, Context> {
             @Override
             @Nullable
             public T get(Level level, BlockPos pos, Context context) {
-                return get(level, pos, level.getBlockState(pos), null, context);
+                BlockState state = level.getBlockState(pos);
+                BlockEntity blockEntity = null;
+                if (state.hasBlockEntity()) {
+                    blockEntity = level.getBlockEntity(pos);
+                }
+                return get(level, pos, state, blockEntity, context);
             }
             
             @Override

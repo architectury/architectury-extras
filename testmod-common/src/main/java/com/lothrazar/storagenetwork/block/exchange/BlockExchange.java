@@ -47,7 +47,7 @@ import java.util.List;
 public class BlockExchange extends BaseBlock {
     
     public BlockExchange() {
-        super(Material.METAL, "exchange");
+        super(Material.METAL);
     }
     
     @Override

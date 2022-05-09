@@ -3,15 +3,12 @@ plugins {
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-
     forge {
-        mixinConfig "architectury.mixins.json"
-
         localMods {
-            forge {
-                it.add(project(":forge").sourceSets.main)
-            }
+            forgeTransferBase { add(project(":forge").sourceSets.transferBase) }
+            forgeTransferItem { add(project(":forge").sourceSets.transferItem) }
+            forgeTransferFluid { add(project(":forge").sourceSets.transferFluid) }
+            forgeTransferEnergy { add(project(":forge").sourceSets.transferEnergy) }
         }
     }
 }
@@ -30,8 +27,15 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${gradle.rootProject.architectury.minecraft}-${rootProject.forge_version}"
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    implementation project(path: ":forge", configuration: "namedElements")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(path: ":common", configuration: "transferBase")) { transitive false }
+    common(project(path: ":common", configuration: "transferItem")) { transitive false }
+    common(project(path: ":common", configuration: "transferFluid")) { transitive false }
+    common(project(path: ":common", configuration: "transferEnergy")) { transitive false }
+    implementation(project(path: ":forge", configuration: "transferBase")) { transitive false }
+    implementation(project(path: ":forge", configuration: "transferItem")) { transitive false }
+    implementation(project(path: ":forge", configuration: "transferFluid")) { transitive false }
+    implementation(project(path: ":forge", configuration: "transferEnergy")) { transitive false }
     common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
 }

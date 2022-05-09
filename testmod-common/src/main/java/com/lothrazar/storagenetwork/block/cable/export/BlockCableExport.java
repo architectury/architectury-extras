@@ -43,11 +43,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class BlockCableExport extends BlockCable {
-    
-    public BlockCableExport(String registryName) {
-        super(registryName);
-    }
-    
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new TileCableExport(pos, state);

@@ -54,7 +54,7 @@ import java.util.Map.Entry;
 public class BlockMain extends BaseBlock {
     
     public BlockMain() {
-        super(Material.METAL, "master");
+        super(Material.METAL);
     }
     
     @Override

@@ -43,7 +43,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class BlockCollection extends BaseBlock {
     
     public BlockCollection() {
-        super(Material.METAL, "collector");
+        super(Material.METAL);
     }
     
     @Override

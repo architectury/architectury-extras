@@ -43,9 +43,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class BlockInventory extends BaseBlock {
-    
-    public BlockInventory(String registryName) {
-        super(Material.METAL, registryName);
+    public BlockInventory() {
+        super(Material.METAL);
     }
     
     @Override

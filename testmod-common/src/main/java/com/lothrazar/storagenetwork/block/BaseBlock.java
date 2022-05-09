@@ -25,14 +25,12 @@
 
 package com.lothrazar.storagenetwork.block;
 
-import com.lothrazar.storagenetwork.StorageNetwork;
 import com.lothrazar.storagenetwork.block.cable.BlockCable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -46,20 +44,12 @@ import net.minecraft.world.level.material.Material;
 import java.util.List;
 
 public abstract class BaseBlock extends BaseEntityBlock {
-    private final ResourceLocation registryName;
-    
-    public BaseBlock(Material materialIn, String registryName) {
+    public BaseBlock(Material materialIn) {
         super(Block.Properties.of(materialIn).strength(0.5F).sound(SoundType.STONE));
-        this.registryName = new ResourceLocation(StorageNetwork.MODID, registryName);
     }
     
-    public BaseBlock(Block.Properties prop, String registryName) {
+    public BaseBlock(Properties prop) {
         super(prop);
-        this.registryName = new ResourceLocation(StorageNetwork.MODID, registryName);
-    }
-    
-    public ResourceLocation getRegistryName() {
-        return registryName;
     }
     
     @Override
