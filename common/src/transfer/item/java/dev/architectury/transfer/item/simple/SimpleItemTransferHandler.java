@@ -17,15 +17,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package dev.architectury.transfer.item.wrapper;
+package dev.architectury.transfer.item.simple;
 
+import dev.architectury.transfer.TagSerializable;
+import dev.architectury.transfer.item.wrapper.ContainerTransferHandler;
 import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 
-public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleContainer, BaseSingleTransferHandler<ItemStack>> {
+public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleContainer, BaseSingleTransferHandler<ItemStack>> implements TagSerializable<CompoundTag> {
     public SimpleItemTransferHandler(int size) {
         this(new SimpleContainer(size));
     }
@@ -44,11 +46,13 @@ public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleCo
         }
     }
     
+    @Override
     public CompoundTag save(CompoundTag tag) {
         tag.put("Items", container.createTag());
         return tag;
     }
     
+    @Override
     public void load(CompoundTag tag) {
         container.fromTag(tag.getList("Items", Tag.TAG_COMPOUND));
     }

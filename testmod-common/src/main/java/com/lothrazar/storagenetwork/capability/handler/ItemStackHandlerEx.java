@@ -25,7 +25,7 @@
 
 package com.lothrazar.storagenetwork.capability.handler;
 
-import dev.architectury.transfer.item.wrapper.SimpleItemTransferHandler;
+import dev.architectury.transfer.item.simple.SimpleItemTransferHandler;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 

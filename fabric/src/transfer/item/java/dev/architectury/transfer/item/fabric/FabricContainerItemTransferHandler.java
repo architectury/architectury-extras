@@ -162,7 +162,7 @@ public class FabricContainerItemTransferHandler implements TransferHandler<ItemS
         }
         
         @Override
-        public long getCapacity() {
+        public long getCapacity(ItemStack stack) {
             return storage.getCapacity();
         }
         

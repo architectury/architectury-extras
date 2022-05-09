@@ -128,7 +128,7 @@ public class FluidTransferImpl {
         @Override
         public int getTankCapacity(int index) {
             try (var resource = handler.getContent(index)) {
-                return toInt(resource.getCapacity());
+                return toInt(resource.getResourceCapacity());
             }
         }
         
@@ -285,7 +285,7 @@ public class FluidTransferImpl {
             }
             
             @Override
-            public long getCapacity() {
+            public long getCapacity(FluidStack resource) {
                 return handler.getTankCapacity(index);
             }
             

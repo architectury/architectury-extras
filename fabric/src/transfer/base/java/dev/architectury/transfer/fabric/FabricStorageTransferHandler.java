@@ -202,7 +202,7 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
         }
         
         @Override
-        public long getCapacity() {
+        public long getCapacity(S resource) {
             return view.getCapacity();
         }
         

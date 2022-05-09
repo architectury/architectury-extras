@@ -19,10 +19,8 @@
 
 package dev.architectury.transfer.energy.fabric;
 
-import com.google.common.base.MoreObjects;
 import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.energy.EnergyTransferHandler;
-import dev.architectury.transfer.fabric.FabricStorageTransferHandler;
 import dev.architectury.transfer.wrapper.single.SingleTransferHandler;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
@@ -78,10 +76,10 @@ public class EnergyTransferImpl {
         }
         
         @Override
-        public long getCapacity() {
+        public long getCapacity(Long resource) {
             return storage.getCapacity();
         }
-    
+        
         public static <T> T firstNonNull(T first, T second) {
             if (first != null) {
                 return first;
@@ -161,7 +159,7 @@ public class EnergyTransferImpl {
         
         @Override
         public long getCapacity() {
-            return handler.getCapacity();
+            return handler.getResourceCapacity();
         }
         
         @Override

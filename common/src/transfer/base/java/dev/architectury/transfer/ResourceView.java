@@ -20,7 +20,9 @@
 package dev.architectury.transfer;
 
 import com.google.common.base.Predicates;
+import dev.architectury.transfer.view.CapacityView;
 import dev.architectury.transfer.wrapper.filtering.FilteringResourceView;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.io.Closeable;
 import java.util.function.Predicate;
@@ -30,7 +32,7 @@ import java.util.function.Predicate;
  *
  * @param <T> the type of resource
  */
-public interface ResourceView<T> extends TransferView<T>, Closeable {
+public interface ResourceView<T> extends TransferView<T>, CapacityView<T>, Closeable {
     /**
      * Returns the resource that this view represents.
      * The returned resource is <b>immutable</b>.
@@ -44,7 +46,10 @@ public interface ResourceView<T> extends TransferView<T>, Closeable {
      *
      * @return the capacity
      */
-    long getCapacity();
+    @ApiStatus.NonExtendable
+    default long getResourceCapacity() {
+        return getCapacity(getResource());
+    }
     
     @Override
     default T extract(Predicate<T> toExtract, long maxAmount, TransferAction action) {

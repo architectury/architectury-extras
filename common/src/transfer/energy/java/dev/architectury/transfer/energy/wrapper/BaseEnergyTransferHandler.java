@@ -17,42 +17,39 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package dev.architectury.transfer.wrapper.single;
+package dev.architectury.transfer.energy.wrapper;
 
 import dev.architectury.transfer.TransferAction;
+import dev.architectury.transfer.energy.EnergyTransferHandler;
+import org.jetbrains.annotations.Nullable;
 
-public interface BaseSingleTransferHandler<T> extends SingleTransferHandler<T> {
+public interface BaseEnergyTransferHandler extends EnergyTransferHandler {
     @Override
     default Object saveState() {
-        return copy(getResource());
+        return getResource();
     }
     
     @Override
     default void loadState(Object state) {
-        setResource((T) state);
+        setResource((Long) state);
     }
     
-    void setResource(T resource);
-    
-    default T copy(T resource) {
-        return copyWithAmount(resource, getAmount(resource));
-    }
+    void setResource(long resource);
     
     @Override
-    default long insert(T toInsert, TransferAction action) {
-        T resource = getResource();
-        long currentAmount = getAmount(resource);
+    default long insert(Long toInsert, TransferAction action) {
+        long currentAmount = getResource();
         boolean isEmpty = currentAmount <= 0;
-        if ((isEmpty || isSameVariant(resource, toInsert)) && canInsert(toInsert)) {
-            long slotSpace = isEmpty ? getCapacity(toInsert) : getCapacity(toInsert) - currentAmount;
-            long toInsertAmount = getAmount(toInsert);
-            long inserted = Math.min(slotSpace, toInsertAmount);
+        if (canInsert(toInsert)) {
+            @Nullable
+            Long slotSpace = isEmpty ? getResourceCapacity() : getResourceCapacity() - currentAmount;
+            long inserted = slotSpace == null ? toInsert : Math.min(slotSpace, toInsert);
             
             if (inserted > 0 && action == TransferAction.ACT) {
                 if (isEmpty) {
-                    setResource(copyWithAmount(toInsert, inserted));
+                    setResource(inserted);
                 } else {
-                    setResource(copyWithAmount(resource, currentAmount + inserted));
+                    setResource(currentAmount + inserted);
                 }
             }
             
@@ -63,16 +60,15 @@ public interface BaseSingleTransferHandler<T> extends SingleTransferHandler<T> {
     }
     
     @Override
-    default T extract(T toExtract, TransferAction action) {
-        T resource = getResource();
-        if (!isSameVariant(resource, toExtract)) return blank();
-        long extracted = Math.min(getAmount(toExtract), getAmount(resource));
+    default Long extract(Long toExtract, TransferAction action) {
+        long resource = getResource();
+        long extracted = Math.min(toExtract, resource);
         if (extracted > 0) {
             if (action == TransferAction.ACT) {
-                setResource(copyWithAmount(resource, getAmount(resource) - extracted));
+                setResource(resource - extracted);
             }
             
-            return copyWithAmount(toExtract, extracted);
+            return extracted;
         }
         
         return blank();

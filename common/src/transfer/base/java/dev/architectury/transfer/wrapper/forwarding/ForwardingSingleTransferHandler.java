@@ -66,8 +66,8 @@ public interface ForwardingSingleTransferHandler<T> extends SingleTransferHandle
     }
     
     @Override
-    default long getCapacity() {
-        return forwardingTo().getCapacity();
+    default long getCapacity(T resource) {
+        return forwardingTo().getCapacity(resource);
     }
     
     @Override

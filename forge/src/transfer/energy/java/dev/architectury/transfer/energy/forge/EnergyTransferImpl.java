@@ -72,7 +72,7 @@ public class EnergyTransferImpl {
         }
         
         @Override
-        public long getCapacity() {
+        public long getCapacity(Long resource) {
             return storage.getMaxEnergyStored();
         }
         
@@ -125,7 +125,7 @@ public class EnergyTransferImpl {
         
         @Override
         public int getMaxEnergyStored() {
-            return toInt(handler.getCapacity());
+            return toInt(handler.getResourceCapacity());
         }
         
         @Override

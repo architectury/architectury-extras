@@ -34,8 +34,8 @@ public interface ForwardingResourceView<T> extends ResourceView<T>, ForwardingTr
     }
     
     @Override
-    default long getCapacity() {
-        return forwardingTo().getCapacity();
+    default long getCapacity(T resource) {
+        return forwardingTo().getCapacity(resource);
     }
     
     @Override

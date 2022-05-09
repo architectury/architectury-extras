@@ -106,7 +106,7 @@ public class TransferHandlerStorage<F, S> extends SnapshotParticipant<Object> im
         
         @Override
         public long getCapacity() {
-            return storage.getCapacity();
+            return storage.getResourceCapacity();
         }
         
         @Override

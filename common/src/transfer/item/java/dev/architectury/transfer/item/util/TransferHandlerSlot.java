@@ -21,8 +21,8 @@ package dev.architectury.transfer.item.util;
 
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
-import dev.architectury.transfer.view.VariantView;
 import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
+import dev.architectury.utils.Amount;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
@@ -70,20 +70,16 @@ public class TransferHandlerSlot extends Slot {
     @Override
     public int getMaxStackSize() {
         try (var view = viewSupplier.get()) {
-            return toInt(view.getCapacity());
+            return toInt(view.getCapacity(view.getResource()));
         }
     }
     
     @Override
     public int getMaxStackSize(ItemStack itemStack) {
         try (var view = viewSupplier.get()) {
-            if (view instanceof VariantView) {
-                Long capacity = ((VariantView<ItemStack>) view).getCapacityNullable(itemStack);
-                return capacity == null ? super.getMaxStackSize(itemStack) : capacity.intValue();
-            }
+            long capacity = view.getCapacity(itemStack);
+            return Amount.toInt(capacity);
         }
-        
-        return super.getMaxStackSize(itemStack);
     }
     
     @Override

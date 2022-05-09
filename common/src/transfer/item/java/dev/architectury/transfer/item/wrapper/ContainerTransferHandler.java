@@ -20,11 +20,11 @@
 package dev.architectury.transfer.item.wrapper;
 
 import dev.architectury.transfer.item.ItemTransferHandler;
+import dev.architectury.transfer.item.simple.SimpleItemTransferHandler;
 import dev.architectury.transfer.wrapper.combined.CombinedSingleTransferHandler;
 import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
 import dev.architectury.transfer.wrapper.single.SingleTransferHandler;
 import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.AbstractList;
@@ -47,7 +47,7 @@ public abstract class ContainerTransferHandler<C extends Container, P extends Si
         };
     }
     
-    public static ContainerTransferHandler<SimpleContainer, BaseSingleTransferHandler<ItemStack>> simple(int size) {
+    public static SimpleItemTransferHandler simple(int size) {
         return new SimpleItemTransferHandler(size);
     }
     
@@ -101,8 +101,8 @@ public abstract class ContainerTransferHandler<C extends Container, P extends Si
         }
         
         @Override
-        public long getCapacity() {
-            return Math.min(container.getMaxStackSize(), getResource().getMaxStackSize());
+        public long getCapacity(ItemStack resource) {
+            return Math.min(container.getMaxStackSize(), resource.getMaxStackSize());
         }
         
         @Override

@@ -43,12 +43,6 @@ public interface ItemTransferHandler extends ItemTransferView, TransferHandler<I
     }
     
     @Override
-    @Nullable
-    default Long getCapacityNullable(ItemStack resource) {
-        return (long) resource.getMaxStackSize();
-    }
-    
-    @Override
     default boolean isSameVariant(ItemStack first, ItemStack second) {
         // TODO check caps?
         return ItemStack.matches(first, second);
