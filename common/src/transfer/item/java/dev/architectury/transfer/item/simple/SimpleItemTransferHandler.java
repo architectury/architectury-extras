@@ -23,6 +23,7 @@ import dev.architectury.transfer.TagSerializable;
 import dev.architectury.transfer.item.wrapper.ContainerTransferHandler;
 import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -48,13 +49,28 @@ public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleCo
     
     @Override
     public CompoundTag save(CompoundTag tag) {
-        tag.put("Items", container.createTag());
+        ListTag listTag = new ListTag();
+        int i = 0;
+        
+        for (BaseSingleTransferHandler<ItemStack> content : this.getContents()) {
+            CompoundTag itemTag = new CompoundTag();
+            itemTag.put("Item", content.getResource().save(new CompoundTag()));
+            itemTag.putInt("Index", i++);
+            listTag.add(itemTag);
+        }
+        
+        tag.put("Items", listTag);
         return tag;
     }
     
     @Override
     public void load(CompoundTag tag) {
-        container.fromTag(tag.getList("Items", Tag.TAG_COMPOUND));
+        container.clearContent();
+        if (tag.contains("Items", Tag.TAG_LIST)) {
+            for (Tag itemTag : tag.getList("Items", Tag.TAG_COMPOUND)) {
+                container.setItem(((CompoundTag) itemTag).getInt("Index"), ItemStack.of(((CompoundTag) itemTag).getCompound("Item")));
+            }
+        }
     }
     
     @Override

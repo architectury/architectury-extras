@@ -62,6 +62,8 @@ public class TransferHandlerSlot extends Slot {
         try (var view = viewSupplier.get()) {
             if (view instanceof BaseSingleTransferHandler) {
                 ((BaseSingleTransferHandler<ItemStack>) view).setResource(itemStack);
+            } else {
+                throw new IllegalStateException("Cannot set resource on non-transfer handler");
             }
         }
         setChanged();

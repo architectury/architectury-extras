@@ -53,7 +53,7 @@ public class ContainerCableImportFilter extends ContainerCable {
                 public int getMaxStackSize() {
                     return 1;
                 }
-        
+                
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return stack.getItem() instanceof ItemUpgrade; // WAS no stock in import

@@ -257,7 +257,7 @@ public class GuiCableExportFilter extends AbstractContainerScreen<ContainerCable
         for (int i = 0; i < this.itemSlotsGhost.size(); i++) {
             ItemSlotNetwork slot = itemSlotsGhost.get(i);
             if (slot.isMouseOverSlot((int) mouseX, (int) mouseY)) {
-                if (slot.getStack().isEmpty() == false) {
+                if (!slot.getStack().isEmpty()) {
                     //i hit non-empty slot, clear it no matter what
                     if (mouseButton == UtilTileEntity.MOUSE_BTN_RIGHT) {
                         int direction = hasShiftDown() ? -1 : 1;
