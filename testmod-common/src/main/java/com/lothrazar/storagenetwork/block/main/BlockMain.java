@@ -32,7 +32,7 @@ import com.lothrazar.storagenetwork.registry.SsnRegistry;
 import com.lothrazar.storagenetwork.util.UtilTileEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -94,12 +94,11 @@ public class BlockMain extends BaseBlock {
         if (total == 0) {
             return;
         }
-        playerIn.sendMessage(
-                new TranslatableComponent(ChatFormatting.LIGHT_PURPLE +
-                        UtilTileEntity.lang("chat.main.emptyslots") + tileMain.emptySlots()),
-                playerIn.getUUID());
-        playerIn.sendMessage(new TranslatableComponent(ChatFormatting.DARK_AQUA +
-                UtilTileEntity.lang("chat.main.connectables") + total), playerIn.getUUID());
+        playerIn.sendSystemMessage(
+                Component.translatable(ChatFormatting.LIGHT_PURPLE +
+                        UtilTileEntity.lang("chat.main.emptyslots") + tileMain.emptySlots()));
+        playerIn.sendSystemMessage(Component.translatable(ChatFormatting.DARK_AQUA +
+                UtilTileEntity.lang("chat.main.connectables") + total));
         Map<String, Integer> mapNamesToCount = new HashMap<>();
         Iterator<DimPos> iter = tileMain.getConnectablePositions().iterator();
         Block bl;
@@ -109,7 +108,7 @@ public class BlockMain extends BaseBlock {
             p = iter.next();
             bl = p.getBlockState().getBlock();
             //getTranslatedName client only thanks mojang lol
-            blockName = (new TranslatableComponent(bl.getDescriptionId())).getString();
+            blockName = (Component.translatable(bl.getDescriptionId())).getString();
             int count = mapNamesToCount.get(blockName) != null ? (mapNamesToCount.get(blockName) + 1) : 1;
             mapNamesToCount.put(blockName, count);
         }
@@ -125,7 +124,7 @@ public class BlockMain extends BaseBlock {
             }
         });
         for (Entry<String, Integer> e : listDisplayStrings) {
-            playerIn.sendMessage(new TranslatableComponent(ChatFormatting.AQUA + "    " + e.getValue() + ": " + e.getKey()), playerIn.getUUID());
+            playerIn.sendSystemMessage(Component.translatable(ChatFormatting.AQUA + "    " + e.getValue() + ": " + e.getKey()));
         }
     }
     

@@ -40,7 +40,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -125,7 +125,7 @@ public class ItemStorageCraftingRemote extends Item implements MenuProvider {
     @Override
     @Environment(EnvType.CLIENT)
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        TranslatableComponent t = new TranslatableComponent(getDescriptionId() + ".tooltip");
+        MutableComponent t = Component.translatable(getDescriptionId() + ".tooltip");
         t.withStyle(ChatFormatting.GRAY);
         tooltip.add(t);
         if (stack.hasTag()) {
@@ -181,7 +181,7 @@ public class ItemStorageCraftingRemote extends Item implements MenuProvider {
             MenuRegistry.openMenu((ServerPlayer) player, thiss);
             return true;
         } else {
-            player.displayClientMessage(new TranslatableComponent("item.remote.notfound"), true);
+            player.displayClientMessage(Component.translatable("item.remote.notfound"), true);
             return false;
         }
     }
@@ -198,7 +198,7 @@ public class ItemStorageCraftingRemote extends Item implements MenuProvider {
     
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent(this.getDescriptionId());
+        return Component.translatable(this.getDescriptionId());
     }
     
     @Override

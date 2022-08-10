@@ -30,7 +30,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -55,7 +55,7 @@ public abstract class BaseBlock extends BaseEntityBlock {
     @Override
     public void appendHoverText(ItemStack stack, BlockGetter playerIn, List<Component> tooltip, TooltipFlag advanced) {
         super.appendHoverText(stack, playerIn, tooltip, advanced);
-        TranslatableComponent t = new TranslatableComponent(getDescriptionId() + ".tooltip");
+        MutableComponent t = Component.translatable(getDescriptionId() + ".tooltip");
         t.withStyle(ChatFormatting.GRAY);
         tooltip.add(t);
     }

@@ -27,9 +27,8 @@ package com.lothrazar.storagenetwork.util;
 
 import com.lothrazar.storagenetwork.api.IConnectable;
 import com.lothrazar.storagenetwork.block.main.TileMain;
-import dev.architectury.registry.registries.Registries;
-import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -53,30 +52,30 @@ public class UtilTileEntity {
         if (soundIn == null || entityIn == null) {
             return;
         }
-        entityIn.connection.send(new ClientboundSoundPacket(soundIn, SoundSource.PLAYERS, entityIn.xOld, entityIn.yOld, entityIn.zOld, volume, 1.0F));
+        entityIn.connection.send(new ClientboundSoundPacket(soundIn, SoundSource.PLAYERS, entityIn.xOld, entityIn.yOld, entityIn.zOld, volume, 1.0F, entityIn.level.random.nextLong()));
     }
     
     public static void chatMessage(Player player, String message) {
         if (player.level.isClientSide) {
-            player.sendMessage(new TranslatableComponent(message), player.getUUID());
+            player.sendSystemMessage(Component.translatable(message));
         }
     }
     
     public static void statusMessage(Player player, BlockState bs) {
         if (player.level.isClientSide) {
-            player.displayClientMessage(new TranslatableComponent(bs.getBlock().getName().getString()), true);
+            player.displayClientMessage(Component.translatable(bs.getBlock().getName().getString()), true);
         }
     }
     
     public static void statusMessage(Player player, String message) {
         if (player.level.isClientSide) {
-            player.displayClientMessage(new TranslatableComponent(message), true);
+            player.displayClientMessage(Component.translatable(message), true);
         }
     }
     
     public static String lang(String message) {
-        TranslatableComponent t = new TranslatableComponent(message);
-        return t.getContents();
+        MutableComponent t = Component.translatable(message);
+        return t.getString();
     }
     
     /**
@@ -102,7 +101,7 @@ public class UtilTileEntity {
         if (modNamesForIds.containsKey(theitem)) {
             return modNamesForIds.get(theitem);
         }
-        String modId = Registries.getId(theitem, Registry.ITEM_REGISTRY).getNamespace();
+        String modId = theitem.arch$registryName().getNamespace();
         String lowercaseModId = modId.toLowerCase(Locale.ENGLISH);
         modNamesForIds.put(theitem, lowercaseModId);
         return lowercaseModId;

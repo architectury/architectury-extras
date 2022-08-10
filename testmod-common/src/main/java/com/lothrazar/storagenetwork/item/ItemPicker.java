@@ -35,7 +35,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -86,17 +86,17 @@ public class ItemPicker extends Item {
                     int size = player.isCrouching() ? 1 : 64;
                     ItemStack found = network.request(matcher, size, false);
                     if (!found.isEmpty()) {
-                        player.displayClientMessage(new TranslatableComponent("item.remote.found"), true);
+                        player.displayClientMessage(Component.translatable("item.remote.found"), true);
                         //using add will bypass the collector so try if possible
                         if (!player.addItem(found)) {
                             player.spawnAtLocation(found);
                         }
                     } else {
-                        player.displayClientMessage(new TranslatableComponent("item.remote.notfound.item"), true);
+                        player.displayClientMessage(Component.translatable("item.remote.notfound.item"), true);
                     }
                 } else {
                     //no main
-                    player.displayClientMessage(new TranslatableComponent("item.remote.notfound"), true);
+                    player.displayClientMessage(Component.translatable("item.remote.notfound"), true);
                 }
             }
         }
@@ -106,8 +106,8 @@ public class ItemPicker extends Item {
     @Override
     @Environment(EnvType.CLIENT)
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        TranslatableComponent t;
-        t = new TranslatableComponent(getDescriptionId() + ".tooltip");
+        MutableComponent t;
+        t = Component.translatable(getDescriptionId() + ".tooltip");
         t.withStyle(ChatFormatting.GRAY);
         tooltip.add(t);
         if (stack.hasTag()) {

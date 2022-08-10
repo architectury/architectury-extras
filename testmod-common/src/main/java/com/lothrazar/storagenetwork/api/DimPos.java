@@ -35,7 +35,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -242,6 +241,6 @@ public class DimPos {
         if (pos == null) {
             return null;
         }
-        return new TranslatableComponent("[" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ", " + dimension + "]").withStyle(ChatFormatting.DARK_GRAY);
+        return Component.translatable("[" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ", " + dimension + "]").withStyle(ChatFormatting.DARK_GRAY);
     }
 }

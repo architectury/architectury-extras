@@ -41,7 +41,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -149,25 +148,25 @@ public class GuiCableFilter extends AbstractContainerScreen<ContainerCableFilter
     private void drawTooltips(PoseStack ms, final int mouseX, final int mouseY) {
         if (btnImport != null && btnImport.isMouseOver(mouseX, mouseY)) {
             //NOT StringTextComponent
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.import")),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.import")),
                     Optional.empty(), mouseX - leftPos, mouseY - topPos);
         }
         if (btnAllowIgn != null && btnAllowIgn.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent(this.isAllowlist
+            renderTooltip(ms, Lists.newArrayList(Component.translatable(this.isAllowlist
                             ? "gui.storagenetwork.allowlist"
                             : "gui.storagenetwork.ignorelist")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
         if (btnMinus != null && btnMinus.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.priority.down")), Optional.empty(),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.priority.down")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
         if (btnPlus != null && btnPlus.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.priority.up")), Optional.empty(),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.priority.up")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
         if (btnRedstone != null && btnRedstone.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.redstone")), Optional.empty(),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.redstone")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
     }

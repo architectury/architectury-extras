@@ -30,7 +30,6 @@ import com.lothrazar.storagenetwork.registry.SsnRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -58,7 +57,7 @@ public class BlockExchange extends BaseBlock {
     @Override
     public void appendHoverText(ItemStack stack, BlockGetter playerIn, List<Component> tooltip, TooltipFlag advanced) {
         super.appendHoverText(stack, playerIn, tooltip, advanced);
-        tooltip.add(new TranslatableComponent("[WARNING: laggy on large networks] ").withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.add(Component.translatable("[WARNING: laggy on large networks] ").withStyle(ChatFormatting.DARK_GRAY));
     }
     
     @Override

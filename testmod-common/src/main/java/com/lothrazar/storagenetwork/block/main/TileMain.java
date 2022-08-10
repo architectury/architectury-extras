@@ -34,14 +34,12 @@ import com.lothrazar.storagenetwork.registry.SsnRegistry;
 import com.lothrazar.storagenetwork.registry.StorageNetworkCapabilities;
 import com.lothrazar.storagenetwork.util.UtilInventory;
 import dev.architectury.hooks.item.ItemStackHooks;
-import dev.architectury.registry.registries.Registries;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.TransferHandler;
 import dev.architectury.transfer.item.ItemTransfer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
@@ -241,7 +239,7 @@ public class TileMain extends BlockEntity {
         if (state.getBlock() == Blocks.AIR) {
             return false;
         }
-        String blockId = Registries.getId(state.getBlock(), Registry.BLOCK_REGISTRY).toString();
+        String blockId = state.getBlock().arch$registryName().toString();
         for (String s : StorageNetwork.CONFIG.ignorelist()) {
             if (blockId.equals(s)) {
                 return false;
@@ -317,7 +315,7 @@ public class TileMain extends BlockEntity {
     }
     
     private static String getStackKey(ItemStack stackInCopy) {
-        return Registries.getId(stackInCopy.getItem(), Registry.ITEM_REGISTRY).toString();
+        return stackInCopy.getItem().arch$registryName().toString();
     }
     
     /**

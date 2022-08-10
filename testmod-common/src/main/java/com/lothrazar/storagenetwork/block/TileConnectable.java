@@ -25,17 +25,11 @@
 
 package com.lothrazar.storagenetwork.block;
 
-import com.lothrazar.storagenetwork.StorageNetwork;
 import com.lothrazar.storagenetwork.api.DimPos;
-import com.lothrazar.storagenetwork.block.main.TileMain;
 import com.lothrazar.storagenetwork.capability.CapabilityConnectable;
 import com.lothrazar.storagenetwork.registry.StorageNetworkCapsProvider;
-import com.lothrazar.storagenetwork.util.UtilTileEntity;
-import dev.architectury.event.events.common.ChunkEvent;
-import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;

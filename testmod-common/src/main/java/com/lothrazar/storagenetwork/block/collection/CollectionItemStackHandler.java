@@ -32,7 +32,6 @@ import com.lothrazar.storagenetwork.block.main.TileMain;
 import com.lothrazar.storagenetwork.capability.handler.FilterItemStackHandler;
 import com.lothrazar.storagenetwork.capability.handler.ItemStackHandlerEx;
 import com.lothrazar.storagenetwork.registry.StorageNetworkCapabilities;
-import dev.architectury.hooks.item.ItemStackHooks;
 import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
 import net.minecraft.world.item.ItemStack;

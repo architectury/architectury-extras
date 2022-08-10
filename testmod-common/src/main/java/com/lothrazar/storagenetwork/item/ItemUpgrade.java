@@ -29,7 +29,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -46,7 +46,7 @@ public class ItemUpgrade extends Item {
     @Override
     @Environment(EnvType.CLIENT)
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        TranslatableComponent t = new TranslatableComponent(getDescriptionId() + ".tooltip");
+        MutableComponent t = Component.translatable(getDescriptionId() + ".tooltip");
         t.withStyle(ChatFormatting.GRAY);
         tooltip.add(t);
     }

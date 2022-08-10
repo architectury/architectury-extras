@@ -32,7 +32,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class ButtonRequest extends Button {
@@ -128,7 +128,7 @@ public class ButtonRequest extends Button {
     }
     
     public ButtonRequest(int xPos, int yPos, String displayString, OnPress handler) {
-        super(xPos, yPos, SIZE, SIZE, new TranslatableComponent(displayString), handler);
+        super(xPos, yPos, SIZE, SIZE, Component.translatable(displayString), handler);
         texture = new ResourceLocation(StorageNetwork.MODID, "textures/gui/cable.png");
     }
     

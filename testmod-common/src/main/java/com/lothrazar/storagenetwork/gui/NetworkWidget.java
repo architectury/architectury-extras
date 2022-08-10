@@ -43,7 +43,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -235,25 +235,25 @@ public class NetworkWidget {
             }
         }
         // 
-        TranslatableComponent tooltip = null;
+        MutableComponent tooltip = null;
         if (directionBtn != null && directionBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = new TranslatableComponent("gui.storagenetwork.sort");
+            tooltip = Component.translatable("gui.storagenetwork.sort");
         } else if (sortBtn != null && sortBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = new TranslatableComponent("gui.storagenetwork.req.tooltip_" + gui.getSort().name().toLowerCase());
+            tooltip = Component.translatable("gui.storagenetwork.req.tooltip_" + gui.getSort().name().toLowerCase());
         } else if (focusBtn != null && focusBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = new TranslatableComponent("gui.storagenetwork.autofocus.tooltip." + gui.getAutoFocus());
+            tooltip = Component.translatable("gui.storagenetwork.autofocus.tooltip." + gui.getAutoFocus());
         } else if (Platform.isModLoaded("jei") && jeiBtn != null && jeiBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = new TranslatableComponent(gui.isJeiSearchSynced() ? "gui.storagenetwork.fil.tooltip_jei_on" : "gui.storagenetwork.fil.tooltip_jei_off");
+            tooltip = Component.translatable(gui.isJeiSearchSynced() ? "gui.storagenetwork.fil.tooltip_jei_on" : "gui.storagenetwork.fil.tooltip_jei_off");
         } else if (this.inSearchBar(mouseX, mouseY)) {
             //tooltip = new TranslationTextComponent("gui.storagenetwork.fil.tooltip_clear");
             if (!Screen.hasShiftDown()) {
-                tooltip = new TranslatableComponent("gui.storagenetwork.shift");
+                tooltip = Component.translatable("gui.storagenetwork.shift");
             } else {
                 List<Component> lis = Lists.newArrayList();
-                lis.add(new TranslatableComponent("gui.storagenetwork.fil.tooltip_mod")); //@
-                lis.add(new TranslatableComponent("gui.storagenetwork.fil.tooltip_tooltip")); //#
-                lis.add(new TranslatableComponent("gui.storagenetwork.fil.tooltip_tags")); //$
-                lis.add(new TranslatableComponent("gui.storagenetwork.fil.tooltip_clear")); //clear
+                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_mod")); //@
+                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_tooltip")); //#
+                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_tags")); //$
+                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_clear")); //clear
                 Screen screen = ((Screen) gui);
                 screen.renderTooltip(ms, lis, Optional.empty(), mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTopFixJei());
                 return; // all done, we have our tts rendered

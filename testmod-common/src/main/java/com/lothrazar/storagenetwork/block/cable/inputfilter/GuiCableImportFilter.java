@@ -43,8 +43,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -140,7 +138,7 @@ public class GuiCableImportFilter extends AbstractContainerScreen<ContainerCable
                 4210752);
         if (btnOperationToggle != null && this.isOperationMode()) {
             OpCompareType t = OpCompareType.get(containerCableLink.cap.operationType);
-            btnOperationToggle.setMessage(new TextComponent(t.symbol()));
+            btnOperationToggle.setMessage(Component.literal(t.symbol()));
         }
         this.drawTooltips(ms, mouseX, mouseY);
     }
@@ -177,30 +175,30 @@ public class GuiCableImportFilter extends AbstractContainerScreen<ContainerCable
     
     private void drawTooltips(PoseStack ms, final int mouseX, final int mouseY) {
         if (btnImport != null && btnImport.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.import")), Optional.empty(),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.import")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
         if (btnAllowIgn != null && btnAllowIgn.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent(this.isAllowlist ? "gui.storagenetwork.allowlist" : "gui.storagenetwork.ignorelist")), Optional.empty(),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable(this.isAllowlist ? "gui.storagenetwork.allowlist" : "gui.storagenetwork.ignorelist")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
         if (btnMinus != null && btnMinus.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.priority.down")), Optional.empty(),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.priority.down")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
         if (btnPlus != null && btnPlus.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.priority.up")), Optional.empty(),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.priority.up")), Optional.empty(),
                     mouseX - leftPos, mouseY - topPos);
         }
         if (btnRedstone != null && btnRedstone.isMouseOver(mouseX, mouseY)) {
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.redstone."
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.redstone."
                     + containerCableLink.cap.needsRedstone())), Optional.empty(), mouseX - leftPos, mouseY - topPos);
         }
         if (btnOperationToggle != null && btnOperationToggle.isMouseOver(mouseX, mouseY)) {
             OpCompareType t = OpCompareType.get(containerCableLink.cap.operationType);
             String two = "gui.storagenetwork.operate.tooltip." + t.word();
-            renderTooltip(ms, Lists.newArrayList(new TranslatableComponent("gui.storagenetwork.operate.tooltip"),
-                            new TranslatableComponent(two)),
+            renderTooltip(ms, Lists.newArrayList(Component.translatable("gui.storagenetwork.operate.tooltip"),
+                            Component.translatable(two)),
                     Optional.empty(), mouseX - leftPos, mouseY - topPos);
         }
     }
