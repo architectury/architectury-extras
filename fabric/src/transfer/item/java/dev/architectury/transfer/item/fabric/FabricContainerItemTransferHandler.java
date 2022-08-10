@@ -19,13 +19,12 @@
 
 package dev.architectury.transfer.item.fabric;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import dev.architectury.hooks.item.ItemStackHooks;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.TransferHandler;
-import dev.architectury.utils.Amount;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
@@ -35,8 +34,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import static dev.architectury.utils.Amount.toInt;
 
@@ -56,9 +55,9 @@ public class FabricContainerItemTransferHandler implements TransferHandler<ItemS
     }
     
     @Override
-    public Stream<ResourceView<ItemStack>> streamContents() {
-        return Stream.concat(Stream.of(context.getMainSlot()), context.getAdditionalSlots().stream())
-                .map(FabricResourceView::new);
+    public Iterator<ResourceView<ItemStack>> iterator() {
+        return Iterators.transform(Iterators.concat(Iterators.singletonIterator(context.getMainSlot()),
+                context.getAdditionalSlots().iterator()), FabricResourceView::new);
     }
     
     @Override
@@ -216,10 +215,6 @@ public class FabricContainerItemTransferHandler implements TransferHandler<ItemS
         @Override
         public void loadState(Object state) {
             throw new UnsupportedOperationException();
-        }
-        
-        @Override
-        public void close() {
         }
     }
 }

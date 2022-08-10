@@ -131,9 +131,5 @@ public abstract class SimpleFluidTransferHandler<P extends BaseSingleTransferHan
         public long getCapacity(FluidStack resource) {
             return this.capacity;
         }
-        
-        @Override
-        public void close() {
-        }
     }
 }

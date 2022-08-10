@@ -19,6 +19,7 @@
 
 package dev.architectury.transfer.fabric;
 
+import com.google.common.collect.Iterators;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.TransferHandler;
@@ -28,7 +29,6 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 
 import java.util.Iterator;
-import java.util.stream.Stream;
 
 @SuppressWarnings("UnstableApiUsage")
 public class TransferHandlerStorage<F, S> extends SnapshotParticipant<Object> implements Storage<F> {
@@ -41,13 +41,9 @@ public class TransferHandlerStorage<F, S> extends SnapshotParticipant<Object> im
     }
     
     @Override
-    public Iterator<StorageView<F>> iterator(TransactionContext transaction) {
-        Stream<StorageView<F>> stream = this.handler.streamContents()
-                .map(view -> new FabricStorageView<F, S>(view, typeAdapter));
-        transaction.addCloseCallback((t, result) -> {
-            stream.close();
-        });
-        return stream.iterator();
+    public Iterator<StorageView<F>> iterator() {
+        return Iterators.transform(this.handler.iterator(),
+                view -> new FabricStorageView<>(view, typeAdapter));
     }
     
     @Override

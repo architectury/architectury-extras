@@ -95,18 +95,16 @@ public class CapabilityConnectableLink implements IConnectableLink {
         }
         // If it does, iterate its stacks, filter them and add them to the result list
         List<ItemStack> result = new ArrayList<>();
-        itemHandler.withContents(resourceViews -> {
-            for (ResourceView<ItemStack> view : resourceViews) {
-                ItemStack stack = view.getResource();
-                if (stack == null || stack.isEmpty()) {
-                    continue;
-                }
-                if (isFiltered && filters.isStackFiltered(stack)) {
-                    continue;
-                }
-                result.add(stack.copy());
+        for (ResourceView<ItemStack> view : itemHandler) {
+            ItemStack stack = view.getResource();
+            if (stack == null || stack.isEmpty()) {
+                continue;
             }
-        });
+            if (isFiltered && filters.isStackFiltered(stack)) {
+                continue;
+            }
+            result.add(stack.copy());
+        }
         return result;
     }
     
@@ -162,29 +160,27 @@ public class CapabilityConnectableLink implements IConnectableLink {
             return ItemStack.EMPTY;
         }
         ItemStack[] firstMatchedStack = {ItemStack.EMPTY};
-        int[] remaining = {size};
-        itemHandler.withContents(resourceViews -> {
-            for (ResourceView<ItemStack> view : resourceViews) {
-                //force simulate: allow them to not let me see the stack, also dont extract since it might steal/dupe
-                ItemStack stack = view.extract(s -> 
-                        !filters.isStackFiltered(s) && (firstMatchedStack[0].isEmpty() ? matcher.match(s) : UtilInventory.canStack(firstMatchedStack[0], s)), 
-                        remaining[0], TransferAction.SIMULATE);
-                if (stack == null || stack.isEmpty()) {
-                    continue;
-                }
-                // If its not even the item type we're looking for -> continue
-                if (firstMatchedStack[0].isEmpty()) {
-                    firstMatchedStack[0] = stack.copy();
-                }
-                int toExtract = Math.min(stack.getCount(), remaining[0]);
-                ItemStack extractedStack = view.extractAny(toExtract, simulate ? TransferAction.SIMULATE : TransferAction.ACT);
-                remaining[0] -= extractedStack.getCount();
-                if (remaining[0] <= 0) {
-                    break;
-                }
+        int remaining = size;
+        for (ResourceView<ItemStack> view : itemHandler) {
+            //force simulate: allow them to not let me see the stack, also dont extract since it might steal/dupe
+            ItemStack stack = view.extract(s ->
+                            !filters.isStackFiltered(s) && (firstMatchedStack[0].isEmpty() ? matcher.match(s) : UtilInventory.canStack(firstMatchedStack[0], s)),
+                    remaining, TransferAction.SIMULATE);
+            if (stack == null || stack.isEmpty()) {
+                continue;
             }
-        });
-        int extractCount = size - remaining[0];
+            // If its not even the item type we're looking for -> continue
+            if (firstMatchedStack[0].isEmpty()) {
+                firstMatchedStack[0] = stack.copy();
+            }
+            int toExtract = Math.min(stack.getCount(), remaining);
+            ItemStack extractedStack = view.extractAny(toExtract, simulate ? TransferAction.SIMULATE : TransferAction.ACT);
+            remaining -= extractedStack.getCount();
+            if (remaining <= 0) {
+                break;
+            }
+        }
+        int extractCount = size - remaining;
         if (!firstMatchedStack[0].isEmpty() && extractCount > 0) {
             firstMatchedStack[0].setCount(extractCount);
         }
@@ -207,17 +203,15 @@ public class CapabilityConnectableLink implements IConnectableLink {
         if (itemHandler == null) {
             return 0;
         }
-        return itemHandler.getWithContents(resourceViews -> {
-            int emptySlots = 0;
-            for (ResourceView<ItemStack> view : resourceViews) {
-                ItemStack stack = view.getResource();
-                if (stack != null && !stack.isEmpty()) {
-                    continue;
-                }
-                emptySlots++;
+        int emptySlots = 0;
+        for (ResourceView<ItemStack> view : itemHandler) {
+            ItemStack stack = view.getResource();
+            if (stack != null && !stack.isEmpty()) {
+                continue;
             }
-            return emptySlots;
-        });
+            emptySlots++;
+        }
+        return emptySlots;
     }
     
     @Override

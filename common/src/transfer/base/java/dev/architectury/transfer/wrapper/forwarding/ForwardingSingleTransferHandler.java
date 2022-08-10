@@ -23,16 +23,16 @@ import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.wrapper.single.SingleTransferHandler;
 
+import java.util.Iterator;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public interface ForwardingSingleTransferHandler<T> extends SingleTransferHandler<T>, ForwardingTransferHandler<T>, ResourceView<T> {
     @Override
     SingleTransferHandler<T> forwardingTo();
     
     @Override
-    default Stream<ResourceView<T>> streamContents() {
-        return forwardingTo().streamContents();
+    default Iterator<ResourceView<T>> iterator() {
+        return forwardingTo().iterator();
     }
     
     @Override
@@ -68,10 +68,5 @@ public interface ForwardingSingleTransferHandler<T> extends SingleTransferHandle
     @Override
     default long getCapacity(T resource) {
         return forwardingTo().getCapacity(resource);
-    }
-    
-    @Override
-    default void close() {
-        forwardingTo().close();
     }
 }

@@ -33,6 +33,7 @@ import com.lothrazar.storagenetwork.block.main.TileMain;
 import com.lothrazar.storagenetwork.capability.CapabilityConnectableAutoIO;
 import com.lothrazar.storagenetwork.registry.SsnRegistry;
 import com.lothrazar.storagenetwork.registry.StorageNetworkCapabilities;
+import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferHandler;
 import dev.architectury.transfer.item.ItemTransfer;
 import net.minecraft.Util;
@@ -104,17 +105,17 @@ public class BlockCable extends BaseBlock implements SimpleWaterloggedBlock {
             if (tileentity != null) {
                 TransferHandler<ItemStack> items = ItemTransfer.BLOCK.get(tileentity, null);
                 if (items != null) {
-                    items.forEachContent(view -> {
+                    for (ResourceView<ItemStack> view : items) {
                         Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), view.getResource().copy());
-                    });
+                    }
                     worldIn.updateNeighbourForOutputSignal(pos, this);
                 }
                 IConnectableItemAutoIO connectable = StorageNetworkCapabilities.CONNECTABLE_AUTO_IO.get(tileentity, null);
                 if (connectable instanceof CapabilityConnectableAutoIO) {
                     CapabilityConnectableAutoIO filterCable = (CapabilityConnectableAutoIO) connectable;
-                    filterCable.upgrades.forEachContent(view -> {
+                    for (ResourceView<ItemStack> view : filterCable.upgrades) {
                         Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), view.getResource().copy());
-                    });
+                    }
                     worldIn.updateNeighbourForOutputSignal(pos, this);
                 }
             }

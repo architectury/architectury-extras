@@ -44,8 +44,4 @@ public class SimpleEnergyTransferHandler implements BaseEnergyTransferHandler, T
         this.stored = tag.getLong("Energy");
         this.capacity = tag.getLong("Capacity");
     }
-    
-    @Override
-    public void close() {
-    }
 }

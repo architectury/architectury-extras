@@ -104,15 +104,13 @@ public class UtilInventory {
     }
     
     public static int countHowMany(TransferHandler<ItemStack> inv, ItemStack stackIn) {
-        return inv.getWithContents(resourceViews -> {
-            int found = 0;
-            for (ResourceView<ItemStack> view : resourceViews) {
-                if (UtilInventory.canStack(view.getResource(), stackIn)) {
-                    found += view.getResource().getCount();
-                }
+        int found = 0;
+        for (ResourceView<ItemStack> view : inv) {
+            if (UtilInventory.canStack(view.getResource(), stackIn)) {
+                found += view.getResource().getCount();
             }
-            return found;
-        });
+        }
+        return found;
     }
     
     public static int containsAtLeastHowManyNeeded(TransferHandler<ItemStack> inv, ItemStack stackIn, int minimumCount) {

@@ -19,16 +19,12 @@
 
 package dev.architectury.transfer.wrapper.combined;
 
-import com.google.common.collect.Iterables;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferHandler;
 import dev.architectury.transfer.wrapper.single.SingleTransferHandler;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /**
  * A {@link TransferHandler} that combines multiple {@link SingleTransferHandler}s.<br>
@@ -37,23 +33,13 @@ import java.util.stream.Stream;
  *
  * @param <T> the type of resource
  */
-public interface CombinedSingleTransferHandler<T, P extends SingleTransferHandler<T>> extends CombinedTransferHandler<T>, Iterable<T> {
+public interface CombinedSingleTransferHandler<T, P extends SingleTransferHandler<T>> extends CombinedTransferHandler<T> {
     @Override
     default Iterable<TransferHandler<T>> getHandlers() {
         return (Iterable<TransferHandler<T>>) (Iterable<? super P>) getContents();
     }
     
     List<P> getContents();
-    
-    @Override
-    default Stream<ResourceView<T>> streamContents() {
-        return (Stream<ResourceView<T>>) (Stream<? super P>) getContents().stream();
-    }
-    
-    @Override
-    default void withContents(Consumer<Iterable<ResourceView<T>>> consumer) {
-        consumer.accept((Iterable<ResourceView<T>>) (Iterable<? super P>) getContents());
-    }
     
     @Override
     default int getContentsSize() {
@@ -69,10 +55,9 @@ public interface CombinedSingleTransferHandler<T, P extends SingleTransferHandle
         return getContent(index).getResource();
     }
     
-    @NotNull
     @Override
-    default Iterator<T> iterator() {
-        return Iterables.transform(getContents(), P::getResource).iterator();
+    default Iterator<ResourceView<T>> iterator() {
+        return (Iterator<ResourceView<T>>) (Iterator<? extends ResourceView<T>>) getContents().iterator();
     }
     
     default int size() {

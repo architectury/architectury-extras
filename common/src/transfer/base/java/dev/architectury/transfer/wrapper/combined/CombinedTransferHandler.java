@@ -19,6 +19,7 @@
 
 package dev.architectury.transfer.wrapper.combined;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
@@ -26,8 +27,8 @@ import dev.architectury.transfer.TransferHandler;
 import dev.architectury.transfer.view.VariantView;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * A {@link TransferHandler} that combines multiple {@link TransferHandler}s.
@@ -38,8 +39,8 @@ public interface CombinedTransferHandler<T> extends TransferHandler<T>, VariantV
     Iterable<TransferHandler<T>> getHandlers();
     
     @Override
-    default Stream<ResourceView<T>> streamContents() {
-        return Streams.stream(getHandlers()).flatMap(TransferHandler::streamContents);
+    default Iterator<ResourceView<T>> iterator() {
+        return Iterables.concat(getHandlers()).iterator();
     }
     
     @Override

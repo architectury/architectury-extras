@@ -32,10 +32,10 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.AbstractList;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static dev.architectury.utils.Amount.toInt;
 
@@ -82,16 +82,12 @@ public class ItemTransferImpl {
         @NotNull
         @Override
         public ItemStack getStackInSlot(int index) {
-            try (var resource = handler.getContent(index)) {
-                return resource.getResource();
-            }
+            return handler.getContent(index).getResource();
         }
         
         @Override
         public int getSlotLimit(int index) {
-            try (var resource = handler.getContent(index)) {
-                return toInt(resource.getResourceCapacity());
-            }
+            return toInt(handler.getContent(index).getResourceCapacity());
         }
         
         @NotNull
@@ -108,11 +104,7 @@ public class ItemTransferImpl {
         
         @Override
         public boolean isItemValid(int index, @NotNull ItemStack stack) {
-            ItemStack content;
-            
-            try (var resource = handler.getContent(index)) {
-                content = resource.getResource();
-            }
+            ItemStack content = handler.getContent(index).getResource();
             return content.getItem() == stack.getItem() && Objects.equals(content.getTag(), stack.getTag());
         }
     }
@@ -129,8 +121,18 @@ public class ItemTransferImpl {
         }
         
         @Override
-        public Stream<ResourceView<ItemStack>> streamContents() {
-            return IntStream.range(0, handler.getSlots()).mapToObj(ForgeResourceView::new);
+        public Iterator<ResourceView<ItemStack>> iterator() {
+            return new AbstractList<ResourceView<ItemStack>>() {
+                @Override
+                public int size() {
+                    return handler.getSlots();
+                }
+                
+                @Override
+                public ResourceView<ItemStack> get(int index) {
+                    return new ForgeResourceView(index);
+                }
+            }.iterator();
         }
         
         @Override
@@ -246,10 +248,6 @@ public class ItemTransferImpl {
             @Override
             public void loadState(Object state) {
                 throw new UnsupportedOperationException();
-            }
-            
-            @Override
-            public void close() {
             }
         }
     }

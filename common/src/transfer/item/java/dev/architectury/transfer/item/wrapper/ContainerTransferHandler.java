@@ -104,9 +104,5 @@ public abstract class ContainerTransferHandler<C extends Container, P extends Si
         public long getCapacity(ItemStack resource) {
             return Math.min(container.getMaxStackSize(), resource.getMaxStackSize());
         }
-        
-        @Override
-        public void close() {
-        }
     }
 }

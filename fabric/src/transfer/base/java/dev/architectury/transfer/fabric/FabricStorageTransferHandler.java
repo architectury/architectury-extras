@@ -20,7 +20,7 @@
 package dev.architectury.transfer.fabric;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
+import com.google.common.collect.Iterators;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.TransferHandler;
@@ -30,11 +30,11 @@ import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Iterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.ToLongFunction;
-import java.util.stream.Stream;
 
 public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
     private final Storage<F> storage;
@@ -60,11 +60,9 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
     }
     
     @Override
-    public Stream<ResourceView<S>> streamContents() {
-        Transaction transaction = Transaction.openNested(firstNonNull(this.transaction, Transaction.getCurrentUnsafe()));
-        return Streams.stream(storage.iterable(transaction))
-                .<ResourceView<S>>map(view -> new FabricStorageResourceView(view, transaction, false))
-                .onClose(transaction::commit);
+    public Iterator<ResourceView<S>> iterator() {
+        return Iterators.transform(storage.iterator(),
+                view -> new FabricStorageResourceView(view, transaction));
     }
     
     @Override
@@ -72,9 +70,7 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
         if (storage instanceof InventoryStorage) {
             return ((InventoryStorage) storage).getSlots().size();
         }
-        try (Transaction transaction = Transaction.openNested(firstNonNull(this.transaction, Transaction.getCurrentUnsafe()))) {
-            return Iterables.size(storage.iterable(transaction));
-        }
+        return Iterables.size(storage);
     }
     
     @Override
@@ -82,8 +78,7 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
         if (storage instanceof InventoryStorage) {
             return new FabricStorageResourceView((StorageView<F>) ((InventoryStorage) storage).getSlots().get(index));
         }
-        Transaction transaction = Transaction.openNested(firstNonNull(this.transaction, Transaction.getCurrentUnsafe()));
-        return new FabricStorageResourceView(Iterables.get(storage.iterable(transaction), index), transaction, true);
+        return new FabricStorageResourceView(Iterables.get(storage, index), transaction);
     }
     
     @Override
@@ -120,7 +115,7 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
     @Override
     public S extract(Predicate<S> toExtract, long maxAmount, TransferAction action) {
         try (Transaction nested = Transaction.openNested(firstNonNull(this.transaction, Transaction.getCurrentUnsafe()))) {
-            for (StorageView<F> view : this.storage.iterable(nested)) {
+            for (StorageView<F> view : this.storage) {
                 if (!view.isResourceBlank() && toExtract.test(fromFabric(view))) {
                     long extracted = view.extract(view.getResource(), maxAmount, nested);
                     
@@ -184,16 +179,14 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
         private final StorageView<F> view;
         @Nullable
         private final Transaction transaction;
-        private final boolean transactionClosable;
         
         private FabricStorageResourceView(StorageView<F> view) {
-            this(view, null, false);
+            this(view, null);
         }
         
-        private FabricStorageResourceView(StorageView<F> view, @Nullable Transaction transaction, boolean transactionClosable) {
+        private FabricStorageResourceView(StorageView<F> view, @Nullable Transaction transaction) {
             this.view = view;
             this.transaction = transaction;
-            this.transactionClosable = transactionClosable;
         }
         
         @Override
@@ -260,13 +253,6 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
         @Override
         public void loadState(Object state) {
             throw new UnsupportedOperationException();
-        }
-        
-        @Override
-        public void close() {
-            if (this.transaction != null && transactionClosable) {
-                this.transaction.commit();
-            }
         }
     }
     

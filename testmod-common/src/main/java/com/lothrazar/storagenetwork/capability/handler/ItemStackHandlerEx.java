@@ -25,6 +25,7 @@
 
 package com.lothrazar.storagenetwork.capability.handler;
 
+import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.item.simple.SimpleItemTransferHandler;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -41,8 +42,6 @@ public class ItemStackHandlerEx extends SimpleItemTransferHandler {
     }
     
     public List<ItemStack> getStacks() {
-        try (var stream = this.stream()) {
-            return stream.toList();
-        }
+        return this.stream().map(ResourceView::getResource).toList();
     }
 }

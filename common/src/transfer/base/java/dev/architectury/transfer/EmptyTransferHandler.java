@@ -19,13 +19,14 @@
 
 package dev.architectury.transfer;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public abstract class EmptyTransferHandler<T> implements TransferHandler<T> {
     @Override
-    public Stream<ResourceView<T>> streamContents() {
-        return Stream.empty();
+    public Iterator<ResourceView<T>> iterator() {
+        return Collections.emptyIterator();
     }
     
     @Override

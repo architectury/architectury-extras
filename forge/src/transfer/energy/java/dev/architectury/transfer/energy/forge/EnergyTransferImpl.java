@@ -95,10 +95,6 @@ public class EnergyTransferImpl {
         public void loadState(Object state) {
             throw new UnsupportedOperationException();
         }
-        
-        @Override
-        public void close() {
-        }
     }
     
     public static class ArchEnergyStorage implements IEnergyStorage {

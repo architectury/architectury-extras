@@ -52,49 +52,41 @@ public class TransferHandlerSlot extends Slot {
     
     @Override
     public ItemStack getItem() {
-        try (var view = viewSupplier.get()) {
-            return view.getResource();
-        }
+        return viewSupplier.get().getResource();
     }
     
     @Override
     public void set(ItemStack itemStack) {
-        try (var view = viewSupplier.get()) {
-            if (view instanceof BaseSingleTransferHandler) {
-                ((BaseSingleTransferHandler<ItemStack>) view).setResource(itemStack);
-            } else {
-                throw new IllegalStateException("Cannot set resource on non-transfer handler");
-            }
+        var view = viewSupplier.get();
+        if (view instanceof BaseSingleTransferHandler) {
+            ((BaseSingleTransferHandler<ItemStack>) view).setResource(itemStack);
+        } else {
+            throw new IllegalStateException("Cannot set resource on non-transfer handler");
         }
         setChanged();
     }
     
     @Override
     public int getMaxStackSize() {
-        try (var view = viewSupplier.get()) {
-            return toInt(view.getCapacity(view.getResource()));
-        }
+        var view = viewSupplier.get();
+        return toInt(view.getCapacity(view.getResource()));
     }
     
     @Override
     public int getMaxStackSize(ItemStack itemStack) {
-        try (var view = viewSupplier.get()) {
-            long capacity = view.getCapacity(itemStack);
-            return Amount.toInt(capacity);
-        }
+        long capacity = viewSupplier.get().getCapacity(itemStack);
+        return Amount.toInt(capacity);
     }
     
     @Override
     public ItemStack remove(int amount) {
-        try (var view = viewSupplier.get()) {
-            return view.extract(view.copyWithAmount(view.getResource(), amount), TransferAction.ACT);
-        }
+        var view = viewSupplier.get();
+        return view.extract(view.copyWithAmount(view.getResource(), amount), TransferAction.ACT);
     }
     
     @Override
     public boolean mayPickup(Player player) {
-        try (var view = viewSupplier.get()) {
-            return !view.extract(view.getResource(), TransferAction.SIMULATE).isEmpty();
-        }
+        var view = viewSupplier.get();
+        return !view.extract(view.getResource(), TransferAction.SIMULATE).isEmpty();
     }
 }

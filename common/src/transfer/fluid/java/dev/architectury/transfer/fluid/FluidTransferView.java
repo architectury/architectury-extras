@@ -20,7 +20,6 @@
 package dev.architectury.transfer.fluid;
 
 import dev.architectury.fluid.FluidStack;
-import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferView;
 
 public interface FluidTransferView extends TransferView<FluidStack> {

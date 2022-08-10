@@ -42,9 +42,4 @@ public interface ForwardingResourceView<T> extends ResourceView<T>, ForwardingTr
     default T extract(Predicate<T> toExtract, long maxAmount, TransferAction action) {
         return ResourceView.super.extract(toExtract, maxAmount, action);
     }
-    
-    @Override
-    default void close() {
-        forwardingTo().close();
-    }
 }

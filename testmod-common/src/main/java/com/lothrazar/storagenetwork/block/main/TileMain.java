@@ -355,58 +355,56 @@ public class TileMain extends BlockEntity {
                     continue;
                 }
             }
-            itemHandler.withContents(resourceViews -> {
-                for (ResourceView<ItemStack> view : resourceViews) {
-                    if (view.getResource().isEmpty()) {
-                        continue;
-                    }
-                    ItemStack stackCurrent = view.getResource().copy();
-                    // Ignore stacks that are filtered
-                    if (storage.getFilters() == null || !storage.getFilters().isStackFiltered(stackCurrent)) {
-                        if (storage.isStockMode()) {
-                            int filterSize = storage.getFilters().getStackCount(stackCurrent);
-                            BlockEntity tileEntity = level.getBlockEntity(connectable.getPos().getBlockPos().relative(storage.facingInventory()));
-                            TransferHandler<ItemStack> targetInventory = ItemTransfer.BLOCK.get(tileEntity, storage.facingInventory().getOpposite());
-                            //request with false to see how many even exist in there.
-                            int chestHowMany = UtilInventory.countHowMany(targetInventory, stackCurrent);
-                            //so if chest=37 items of that kind
-                            //and the filter is say filterSize == 20
-                            //we SHOULD import 37
-                            //as we want the STOCK of the chest to not go less than the filter number , just down to it
-                            if (chestHowMany > filterSize) {
-                                int realSize = Math.min(chestHowMany - filterSize, 64);
-                                StorageNetwork.log(" : stock mode import  realSize = " + realSize);
-                                stackCurrent.setCount(realSize);
-                            } else {
-                                StorageNetwork.log(" : stock mode CANCEL: ITS NOT ENOUGH chestHowMany <= filter size ");
-                                continue;
-                            }
-                        }
-                        //
-                        //
-                        //
-                        int extractSize = Math.min(storage.getTransferRate(), stackCurrent.getCount());
-                        ItemStack stackToImport = view.extractAny(extractSize, TransferAction.SIMULATE); //simulate to grab a reference
-                        if (stackToImport.isEmpty()) {
-                            continue; //continue back to itemHandler
-                        }
-                        // Then try to insert the stack into this masters network and store the number of remaining items in the stack
-                        int countUnmoved = this.insertStack(stackToImport, true);
-                        // Calculate how many items in the stack actually got moved
-                        int countMoved = stackToImport.getCount() - countUnmoved;
-                        if (countMoved <= 0) {
-                            continue; //continue back to itemHandler
-                        }
-                        // Alright, simulation says we're good, let's do it!
-                        // First extract from the storage
-                        ItemStack actuallyExtracted = view.extractAny(countMoved, TransferAction.ACT); // storage.extractNextStack(countMoved, false);
-                        //          storage.getPos().getChunk().markDirty();
-                        // Then insert into our network
-                        this.insertStack(actuallyExtracted, false);
-                        break; // break out of itemHandler loop, done processing this cable, so move to next
-                    } //end of checking on filter for this stack
+            for (ResourceView<ItemStack> view : itemHandler) {
+                if (view.getResource().isEmpty()) {
+                    continue;
                 }
-            });
+                ItemStack stackCurrent = view.getResource().copy();
+                // Ignore stacks that are filtered
+                if (storage.getFilters() == null || !storage.getFilters().isStackFiltered(stackCurrent)) {
+                    if (storage.isStockMode()) {
+                        int filterSize = storage.getFilters().getStackCount(stackCurrent);
+                        BlockEntity tileEntity = level.getBlockEntity(connectable.getPos().getBlockPos().relative(storage.facingInventory()));
+                        TransferHandler<ItemStack> targetInventory = ItemTransfer.BLOCK.get(tileEntity, storage.facingInventory().getOpposite());
+                        //request with false to see how many even exist in there.
+                        int chestHowMany = UtilInventory.countHowMany(targetInventory, stackCurrent);
+                        //so if chest=37 items of that kind
+                        //and the filter is say filterSize == 20
+                        //we SHOULD import 37
+                        //as we want the STOCK of the chest to not go less than the filter number , just down to it
+                        if (chestHowMany > filterSize) {
+                            int realSize = Math.min(chestHowMany - filterSize, 64);
+                            StorageNetwork.log(" : stock mode import  realSize = " + realSize);
+                            stackCurrent.setCount(realSize);
+                        } else {
+                            StorageNetwork.log(" : stock mode CANCEL: ITS NOT ENOUGH chestHowMany <= filter size ");
+                            continue;
+                        }
+                    }
+                    //
+                    //
+                    //
+                    int extractSize = Math.min(storage.getTransferRate(), stackCurrent.getCount());
+                    ItemStack stackToImport = view.extractAny(extractSize, TransferAction.SIMULATE); //simulate to grab a reference
+                    if (stackToImport.isEmpty()) {
+                        continue; //continue back to itemHandler
+                    }
+                    // Then try to insert the stack into this masters network and store the number of remaining items in the stack
+                    int countUnmoved = this.insertStack(stackToImport, true);
+                    // Calculate how many items in the stack actually got moved
+                    int countMoved = stackToImport.getCount() - countUnmoved;
+                    if (countMoved <= 0) {
+                        continue; //continue back to itemHandler
+                    }
+                    // Alright, simulation says we're good, let's do it!
+                    // First extract from the storage
+                    ItemStack actuallyExtracted = view.extractAny(countMoved, TransferAction.ACT); // storage.extractNextStack(countMoved, false);
+                    //          storage.getPos().getChunk().markDirty();
+                    // Then insert into our network
+                    this.insertStack(actuallyExtracted, false);
+                    break; // break out of itemHandler loop, done processing this cable, so move to next
+                } //end of checking on filter for this stack
+            }
             //    }
             //      //
             //      //

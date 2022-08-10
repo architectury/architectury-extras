@@ -19,9 +19,6 @@
 
 package dev.architectury.transfer.access;
 
-import dev.architectury.transfer.access.ItemLookup;
-import dev.architectury.transfer.access.ItemLookupAccess;
-import dev.architectury.transfer.access.ItemLookupRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;

@@ -19,7 +19,6 @@
 
 package dev.architectury.transfer.fluid.forge;
 
-import com.google.common.collect.Streams;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import dev.architectury.transfer.ResourceView;
@@ -48,7 +47,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import static dev.architectury.utils.Amount.toInt;
 
@@ -120,24 +118,17 @@ public class FluidTransferImpl {
         @NotNull
         @Override
         public net.minecraftforge.fluids.FluidStack getFluidInTank(int index) {
-            try (var resource = handler.getContent(index)) {
-                return FluidStackHooksForge.toForge(resource.getResource());
-            }
+            return FluidStackHooksForge.toForge(handler.getContent(index).getResource());
         }
         
         @Override
         public int getTankCapacity(int index) {
-            try (var resource = handler.getContent(index)) {
-                return toInt(resource.getResourceCapacity());
-            }
+            return toInt(handler.getContent(index).getResourceCapacity());
         }
         
         @Override
         public boolean isFluidValid(int index, @NotNull net.minecraftforge.fluids.FluidStack stack) {
-            FluidStack content;
-            try (var resource = handler.getContent(index)) {
-                content = resource.getResource();
-            }
+            FluidStack content = handler.getContent(index).getResource();
             return content.getFluid() == stack.getFluid() && Objects.equals(content.getTag(), stack.getTag());
         }
         
@@ -186,8 +177,8 @@ public class FluidTransferImpl {
         }
         
         @Override
-        public Stream<ResourceView<FluidStack>> streamContents() {
-            return Streams.stream(new Itr());
+        public Iterator<ResourceView<FluidStack>> iterator() {
+            return new Itr();
         }
         
         @Override
@@ -309,10 +300,6 @@ public class FluidTransferImpl {
             @Override
             public void loadState(Object state) {
                 throw new UnsupportedOperationException();
-            }
-            
-            @Override
-            public void close() {
             }
         }
     }

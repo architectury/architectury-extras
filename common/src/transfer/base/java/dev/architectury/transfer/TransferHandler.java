@@ -23,10 +23,9 @@ import com.google.common.base.Predicates;
 import dev.architectury.transfer.wrapper.filtering.FilteringTransferHandler;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * A handler for transferring resources.
@@ -38,51 +37,14 @@ import java.util.stream.Stream;
  * @param <T> the type of resource
  */
 @ApiStatus.NonExtendable
-public interface TransferHandler<T> extends TransferView<T> {
+public interface TransferHandler<T> extends TransferView<T>, Iterable<ResourceView<T>> {
     /**
      * Returns the iterable of immutable resources that are currently in the handler.<br>
-     * <b>Please properly close this stream.</b> Failure to do so will result in a potential
-     * crash in conflicting transactions.<br><br>
-     * You can easily ensure that this is closed by using try-with-resources, otherwise
-     * you will have to manually close the stream by calling {@link Stream#close()}.
      *
      * @return the iterable of resources that are currently in the handler
      */
-    default Stream<T> stream() {
-        return streamContents().map(ResourceView::getResource);
-    }
-    
-    /**
-     * Returns the iterable of immutable resource views that are currently in the handler.<br>
-     * <b>Please properly close this stream.</b> Failure to do so will result in a potential
-     * crash in conflicting transactions.<br><br>
-     * You can easily ensure that this is closed by using try-with-resources, otherwise
-     * you will have to manually close the stream by calling {@link Stream#close()}.
-     *
-     * @return the iterable of resource views that are currently in the handler
-     */
-    Stream<ResourceView<T>> streamContents();
-    
-    default void withContents(Consumer<Iterable<ResourceView<T>>> consumer) {
-        try (Stream<ResourceView<T>> stream = streamContents()) {
-            Iterable<ResourceView<T>> iterable = stream::iterator;
-            consumer.accept(iterable);
-        }
-    }
-    
-    default <A> A getWithContents(Function<Iterable<ResourceView<T>>, A> consumer) {
-        try (Stream<ResourceView<T>> stream = streamContents()) {
-            Iterable<ResourceView<T>> iterable = stream::iterator;
-            return consumer.apply(iterable);
-        }
-    }
-    
-    default void forEachContent(Consumer<ResourceView<T>> consumer) {
-        withContents(resourceViews -> {
-            for (ResourceView<T> resourceView : resourceViews) {
-                consumer.accept(resourceView);
-            }
-        });
+    default Stream<ResourceView<T>> stream() {
+        return StreamSupport.stream(spliterator(), false);
     }
     
     /**
@@ -96,11 +58,7 @@ public interface TransferHandler<T> extends TransferView<T> {
     
     /**
      * Returns the resource in a particular index.
-     * This may be extremely expensive to compute, avoid if you can.<br>
-     * <b>Please properly close this resource.</b> Failure to do so will result in a potential
-     * crash in conflicting transactions.<br><br>
-     * You can easily ensure that this is closed by using try-with-resources, otherwise
-     * you will have to manually close the stream by calling {@link ResourceView#close()}.
+     * This may be extremely expensive to compute, avoid if you can.
      *
      * @param index the index of the resource
      * @return the resource in the given index
@@ -108,12 +66,6 @@ public interface TransferHandler<T> extends TransferView<T> {
      */
     @Deprecated
     ResourceView<T> getContent(int index);
-    
-    default void withContent(int index, Consumer<ResourceView<T>> consumer) {
-        try (ResourceView<T> resource = getContent(index)) {
-            consumer.accept(resource);
-        }
-    }
     
     /**
      * Inserts the given resource into a given resource index, returning the amount that was inserted.
@@ -124,9 +76,7 @@ public interface TransferHandler<T> extends TransferView<T> {
      * @return the amount that was inserted
      */
     default long insertAt(int index, T toInsert, TransferAction action) {
-        try (ResourceView<T> resource = getContent(index)) {
-            return resource.insert(toInsert, action);
-        }
+        return getContent(index).insert(toInsert, action);
     }
     
     /**
@@ -138,9 +88,7 @@ public interface TransferHandler<T> extends TransferView<T> {
      * @return the stack that was extracted
      */
     default T extractAt(int index, T toExtract, TransferAction action) {
-        try (ResourceView<T> resource = getContent(index)) {
-            return resource.extract(toExtract, action);
-        }
+        return getContent(index).extract(toExtract, action);
     }
     
     /**
@@ -153,9 +101,7 @@ public interface TransferHandler<T> extends TransferView<T> {
      * @return the stack that was extracted
      */
     default T extractAt(int index, Predicate<T> toExtract, long maxAmount, TransferAction action) {
-        try (ResourceView<T> resource = getContent(index)) {
-            return resource.extract(toExtract, maxAmount, action);
-        }
+        return getContent(index).extract(toExtract, maxAmount, action);
     }
     
     /**
@@ -167,9 +113,7 @@ public interface TransferHandler<T> extends TransferView<T> {
      * @return the stack that was extracted
      */
     default T extractAt(int index, long maxAmount, TransferAction action) {
-        try (ResourceView<T> resource = getContent(index)) {
-            return resource.extractAny(maxAmount, action);
-        }
+        return getContent(index).extractAny(maxAmount, action);
     }
     
     @Override

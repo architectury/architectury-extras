@@ -108,20 +108,18 @@ public class CapabilityConnectableAutoIO implements IConnectableItemAutoIO {
             return Collections.emptyList();
         }
         // If it does, iterate its stacks, filter them and add them to the result list
-        return itemHandler.getWithContents(resourceViews -> {
-            List<ItemStack> result = new ArrayList<>();
-            for (ResourceView<ItemStack> view : resourceViews) {
-                ItemStack stack = view.getResource();
-                if (stack == null || stack.isEmpty()) {
-                    continue;
-                }
-                if (isFiltered && filters.isStackFiltered(stack)) {
-                    continue;
-                }
-                result.add(stack.copy());
+        List<ItemStack> result = new ArrayList<>();
+        for (ResourceView<ItemStack> view : itemHandler) {
+            ItemStack stack = view.getResource();
+            if (stack == null || stack.isEmpty()) {
+                continue;
             }
-            return result;
-        });
+            if (isFiltered && filters.isStackFiltered(stack)) {
+                continue;
+            }
+            result.add(stack.copy());
+        }
+        return result;
     }
     
     //TODO: shrae with ConnectableLink
@@ -226,24 +224,22 @@ public class CapabilityConnectableAutoIO implements IConnectableItemAutoIO {
             return Collections.emptyList();
         }
         // If it does, iterate its stacks, filter them and add them to the result list
-        return itemHandler.getWithContents(resourceViews -> {
-            List<ItemStack> result = new ArrayList<>();
-            for (ResourceView<ItemStack> view : resourceViews) {
-                ItemStack stack = view.getResource();
-                if (stack == null || stack.isEmpty()) {
-                    continue;
-                }
-                if (filters.exactStackAlreadyInList(stack)) {
-                    continue;
-                }
-                result.add(stack.copy());
-                // We can abort after we've found FILTER_SIZE stacks; we don't have more filter slots anyway
-                if (result.size() >= FilterItemStackHandler.FILTER_SIZE) {
-                    return result;
-                }
+        List<ItemStack> result = new ArrayList<>();
+        for (ResourceView<ItemStack> view : itemHandler) {
+            ItemStack stack = view.getResource();
+            if (stack == null || stack.isEmpty()) {
+                continue;
             }
-            return result;
-        });
+            if (filters.exactStackAlreadyInList(stack)) {
+                continue;
+            }
+            result.add(stack.copy());
+            // We can abort after we've found FILTER_SIZE stacks; we don't have more filter slots anyway
+            if (result.size() >= FilterItemStackHandler.FILTER_SIZE) {
+                return result;
+            }
+        }
+        return result;
     }
     
     @Override
@@ -279,31 +275,29 @@ public class CapabilityConnectableAutoIO implements IConnectableItemAutoIO {
         if (itemHandler == null) {
             return ItemStack.EMPTY;
         }
-        return itemHandler.getWithContents(resourceViews -> {
-            int amtToRequest = amtToRequestIn;
-            for (ResourceView<ItemStack> view : resourceViews) {
-                ItemStack stack = view.getResource();
-                if (stack == null || stack.isEmpty()) {
-                    continue;
-                }
-                // Ignore stacks that are filtered
-                if (filters.isStackFiltered(stack)) {
-                    continue;
-                }
-                if (operationMode && filters.isAllowList) {
-                    IItemStackMatcher matcher = filters.getFirstMatcher(stack);
-                    //if filters are also in allow list mode
-                    //then get the filter matching stack, and get the count of that filter
-                    if (matcher != null && matcher.getStack().getCount() > 0) {
-                        amtToRequest = matcher.getStack().getCount(); // the 63 haha
-                    }
-                }
-                int extractSize = Math.min(amtToRequest, stack.getCount());
-                return view.extractAny(extractSize, simulate ? TransferAction.SIMULATE : TransferAction.ACT);
+        int amtToRequest = amtToRequestIn;
+        for (ResourceView<ItemStack> view : itemHandler) {
+            ItemStack stack = view.getResource();
+            if (stack == null || stack.isEmpty()) {
+                continue;
             }
-            
-            return ItemStack.EMPTY;
-        });
+            // Ignore stacks that are filtered
+            if (filters.isStackFiltered(stack)) {
+                continue;
+            }
+            if (operationMode && filters.isAllowList) {
+                IItemStackMatcher matcher = filters.getFirstMatcher(stack);
+                //if filters are also in allow list mode
+                //then get the filter matching stack, and get the count of that filter
+                if (matcher != null && matcher.getStack().getCount() > 0) {
+                    amtToRequest = matcher.getStack().getCount(); // the 63 haha
+                }
+            }
+            int extractSize = Math.min(amtToRequest, stack.getCount());
+            return view.extractAny(extractSize, simulate ? TransferAction.SIMULATE : TransferAction.ACT);
+        }
+        
+        return ItemStack.EMPTY;
     }
     
     @Override

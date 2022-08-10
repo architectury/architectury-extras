@@ -27,6 +27,7 @@ package com.lothrazar.storagenetwork.capability.handler;
 
 import com.lothrazar.storagenetwork.api.IItemStackMatcher;
 import com.lothrazar.storagenetwork.util.UtilInventory;
+import dev.architectury.transfer.ResourceView;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -89,8 +90,8 @@ public class FilterItemStackHandler extends ItemStackHandlerEx {
     }
     
     public boolean allAreEmpty() {
-        for (ItemStack stack : this) {
-            if (!stack.isEmpty()) {
+        for (ResourceView<ItemStack> stack : this) {
+            if (!stack.getResource().isEmpty()) {
                 //found something not empty. so allAreEmpty is false
                 return false;
             }

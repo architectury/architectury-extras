@@ -28,8 +28,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Function;
-
 public interface BlockLookupRegistration<T, Context> {
     /**
      * Registers a lookup registration handler, this is used to provide

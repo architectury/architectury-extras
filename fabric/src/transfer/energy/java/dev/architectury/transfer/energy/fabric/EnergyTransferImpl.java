@@ -127,10 +127,6 @@ public class EnergyTransferImpl {
         public void loadState(Object state) {
             throw new UnsupportedOperationException();
         }
-        
-        @Override
-        public void close() {
-        }
     }
     
     private static class EnergyTransferHandlerStorage extends SnapshotParticipant<Object> implements EnergyStorage {

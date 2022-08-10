@@ -20,14 +20,15 @@
 package dev.architectury.transfer.wrapper.single;
 
 import com.google.common.base.Predicates;
+import com.google.common.collect.Iterators;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferHandler;
 import dev.architectury.transfer.view.ModifiableView;
 import dev.architectury.transfer.view.VariantView;
 import dev.architectury.transfer.wrapper.filtering.FilteringSingleTransferHandler;
 
+import java.util.Iterator;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * A {@link TransferHandler} that only has one slot, this is also
@@ -38,8 +39,8 @@ import java.util.stream.Stream;
  */
 public interface SingleTransferHandler<T> extends TransferHandler<T>, ResourceView<T>, ModifiableView<T>, VariantView<T> {
     @Override
-    default Stream<ResourceView<T>> streamContents() {
-        return Stream.of(this);
+    default Iterator<ResourceView<T>> iterator() {
+        return Iterators.singletonIterator(this);
     }
     
     @Override

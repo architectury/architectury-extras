@@ -19,10 +19,11 @@
 
 package dev.architectury.transfer.wrapper.forwarding;
 
+import com.google.common.collect.Iterators;
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferHandler;
 
-import java.util.stream.Stream;
+import java.util.Iterator;
 
 public interface ForwardingTransferHandler<T> extends TransferHandler<T>, ForwardingTransferView<T> {
     @Override
@@ -33,8 +34,8 @@ public interface ForwardingTransferHandler<T> extends TransferHandler<T>, Forwar
     }
     
     @Override
-    default Stream<ResourceView<T>> streamContents() {
-        return forwardingTo().streamContents().map(this::forwardResource);
+    default Iterator<ResourceView<T>> iterator() {
+        return Iterators.transform(forwardingTo().iterator(), this::forwardResource);
     }
     
     @Override

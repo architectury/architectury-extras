@@ -22,7 +22,6 @@ package dev.architectury.transfer.item;
 import dev.architectury.transfer.TransferHandler;
 import dev.architectury.transfer.view.VariantView;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * This is a convenience class that implements methods for {@link ItemStack}s.

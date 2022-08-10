@@ -24,7 +24,6 @@ import dev.architectury.transfer.view.CapacityView;
 import dev.architectury.transfer.wrapper.filtering.FilteringResourceView;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.io.Closeable;
 import java.util.function.Predicate;
 
 /**
@@ -32,7 +31,7 @@ import java.util.function.Predicate;
  *
  * @param <T> the type of resource
  */
-public interface ResourceView<T> extends TransferView<T>, CapacityView<T>, Closeable {
+public interface ResourceView<T> extends TransferView<T>, CapacityView<T> {
     /**
      * Returns the resource that this view represents.
      * The returned resource is <b>immutable</b>.
@@ -64,9 +63,6 @@ public interface ResourceView<T> extends TransferView<T>, CapacityView<T>, Close
     default T extractAny(long maxAmount, TransferAction action) {
         return extract(copyWithAmount(getResource(), maxAmount), action);
     }
-    
-    @Override
-    void close();
     
     @Override
     default ResourceView<T> unmodifiable() {
