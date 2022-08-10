@@ -19,12 +19,12 @@
 
 package dev.architectury.transfer.item.wrapper;
 
-import dev.architectury.transfer.wrapper.filtering.FilteringSingleTransferHandler;
+import dev.architectury.transfer.wrapper.single.SingleTransferHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
 
-public class WorldlyContainerTransferHandler<C extends WorldlyContainer> extends ContainerTransferHandler<C, FilteringSingleTransferHandler<ItemStack>> {
+public class WorldlyContainerTransferHandler<C extends WorldlyContainer> extends ContainerTransferHandler<C, SingleTransferHandler<ItemStack>> {
     protected final Direction direction;
     private final int[] slots;
     
@@ -35,8 +35,8 @@ public class WorldlyContainerTransferHandler<C extends WorldlyContainer> extends
     }
     
     @Override
-    protected FilteringSingleTransferHandler<ItemStack> asTransfer(int index) {
-        return FilteringSingleTransferHandler.of(new SlotTransferHandler(container, slots[index]),
+    protected SingleTransferHandler<ItemStack> asTransfer(int index) {
+        return new SlotTransferHandler(container, slots[index]).filter(
                 stack -> container.canPlaceItemThroughFace(index, stack, direction),
                 stack -> container.canTakeItemThroughFace(index, stack, direction));
     }

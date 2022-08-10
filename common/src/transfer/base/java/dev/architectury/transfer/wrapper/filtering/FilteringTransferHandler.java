@@ -47,6 +47,6 @@ public interface FilteringTransferHandler<T> extends ForwardingTransferHandler<T
     
     @Override
     default ResourceView<T> forwardResource(ResourceView<T> resource) {
-        return FilteringResourceView.of(ForwardingTransferHandler.super.forwardResource(resource), this::canInsert, this::canExtract);
+        return ForwardingTransferHandler.super.forwardResource(resource).filter(this::canInsert, this::canExtract);
     }
 }
