@@ -25,7 +25,7 @@ import dev.architectury.transfer.TagSerializable;
 import dev.architectury.transfer.fluid.FluidTransferHandler;
 import dev.architectury.transfer.fluid.wrapper.CombinedFluidTransferHandler;
 import dev.architectury.transfer.wrapper.combined.CombinedSingleTransferHandler;
-import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
+import dev.architectury.transfer.wrapper.single.SimpleSingleTransferHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -33,7 +33,7 @@ import net.minecraft.nbt.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SimpleFluidTransferHandler<P extends BaseSingleTransferHandler<FluidStack>> implements CombinedFluidTransferHandler, CombinedSingleTransferHandler<FluidStack, P>,
+public abstract class SimpleFluidTransferHandler<P extends SimpleSingleTransferHandler<FluidStack>> implements CombinedFluidTransferHandler, CombinedSingleTransferHandler<FluidStack, P>,
         TagSerializable<CompoundTag> {
     private final List<P> handlers;
     
@@ -41,10 +41,10 @@ public abstract class SimpleFluidTransferHandler<P extends BaseSingleTransferHan
         this.handlers = createHandlers(size);
     }
     
-    public static SimpleFluidTransferHandler<BaseSingleTransferHandler<FluidStack>> of(int size, long capacity) {
+    public static SimpleFluidTransferHandler<SimpleSingleTransferHandler<FluidStack>> of(int size, long capacity) {
         return new SimpleFluidTransferHandler<>(size) {
             @Override
-            protected BaseSingleTransferHandler<FluidStack> asTransfer(int index, long capacity) {
+            protected SimpleSingleTransferHandler<FluidStack> asTransfer(int index, long capacity) {
                 return new SlotTransferHandler(index, capacity);
             }
             
@@ -60,7 +60,7 @@ public abstract class SimpleFluidTransferHandler<P extends BaseSingleTransferHan
     }
     
     public void clear() {
-        for (BaseSingleTransferHandler<FluidStack> content : getContents()) {
+        for (SimpleSingleTransferHandler<FluidStack> content : getContents()) {
             content.setResource(FluidStack.empty());
         }
     }
@@ -107,7 +107,7 @@ public abstract class SimpleFluidTransferHandler<P extends BaseSingleTransferHan
     
     protected abstract long getCapacity(int index);
     
-    protected static class SlotTransferHandler implements BaseSingleTransferHandler<FluidStack>, FluidTransferHandler {
+    protected static class SlotTransferHandler implements SimpleSingleTransferHandler<FluidStack>, FluidTransferHandler {
         protected final int index;
         protected FluidStack stack = FluidStack.empty();
         protected final long capacity;

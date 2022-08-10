@@ -31,7 +31,7 @@ import com.lothrazar.storagenetwork.capability.handler.ItemStackHandlerEx;
 import com.lothrazar.storagenetwork.capability.handler.ItemStackMatcher;
 import com.lothrazar.storagenetwork.registry.ConfigRegistry;
 import dev.architectury.transfer.TransferAction;
-import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
+import dev.architectury.transfer.wrapper.single.SimpleSingleTransferHandler;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -100,7 +100,7 @@ public class ExchangeItemStackHandler extends ItemStackHandlerEx {
 //        return ItemStack.EMPTY;
 //    }
     @Override
-    protected BaseSingleTransferHandler<ItemStack> asTransfer(int index) {
+    protected SimpleSingleTransferHandler<ItemStack> asTransfer(int index) {
         return new SlotTransferHandler(container, index) {
             @Override
             public long insert(ItemStack toInsert, TransferAction action) {

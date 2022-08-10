@@ -23,7 +23,7 @@ import dev.architectury.transfer.TransferAction;
 import dev.architectury.transfer.energy.EnergyTransferHandler;
 import org.jetbrains.annotations.Nullable;
 
-public interface BaseEnergyTransferHandler extends EnergyTransferHandler {
+public interface SimpleEnergyTransferHandler extends EnergyTransferHandler {
     @Override
     default Object saveState() {
         return getResource();

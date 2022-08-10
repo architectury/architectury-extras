@@ -21,7 +21,7 @@ package dev.architectury.transfer.item.util;
 
 import dev.architectury.transfer.ResourceView;
 import dev.architectury.transfer.TransferAction;
-import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
+import dev.architectury.transfer.wrapper.single.SimpleSingleTransferHandler;
 import dev.architectury.utils.Amount;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
@@ -35,7 +35,7 @@ import static dev.architectury.utils.Amount.toInt;
 /**
  * A convenience wrapper for {@link Slot}.<br>
  * Implementations of this class may want to override {@link #set(ItemStack)},
- * if the resource is not an instance of {@link BaseSingleTransferHandler}.
+ * if the resource is not an instance of {@link SimpleSingleTransferHandler}.
  */
 public class TransferHandlerSlot extends Slot {
     protected final Supplier<ResourceView<ItemStack>> viewSupplier;
@@ -58,8 +58,8 @@ public class TransferHandlerSlot extends Slot {
     @Override
     public void set(ItemStack itemStack) {
         var view = viewSupplier.get();
-        if (view instanceof BaseSingleTransferHandler) {
-            ((BaseSingleTransferHandler<ItemStack>) view).setResource(itemStack);
+        if (view instanceof SimpleSingleTransferHandler) {
+            ((SimpleSingleTransferHandler<ItemStack>) view).setResource(itemStack);
         } else {
             throw new IllegalStateException("Cannot set resource on non-transfer handler");
         }

@@ -35,7 +35,7 @@ import java.util.function.Predicate;
  * an implementation of {@link ResourceView}.
  *
  * @param <T> the type of resource
- * @see BaseSingleTransferHandler for a simple implementation
+ * @see SimpleSingleTransferHandler for a simple implementation
  */
 public interface SingleTransferHandler<T> extends TransferHandler<T>, ResourceView<T>, ModifiableView<T>, VariantView<T> {
     @Override

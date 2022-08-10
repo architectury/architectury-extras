@@ -21,7 +21,7 @@ package dev.architectury.transfer.wrapper.single;
 
 import dev.architectury.transfer.TransferAction;
 
-public interface BaseSingleTransferHandler<T> extends SingleTransferHandler<T> {
+public interface SimpleSingleTransferHandler<T> extends SingleTransferHandler<T> {
     @Override
     default Object saveState() {
         return copy(getResource());

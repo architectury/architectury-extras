@@ -21,14 +21,14 @@ package dev.architectury.transfer.item.simple;
 
 import dev.architectury.transfer.TagSerializable;
 import dev.architectury.transfer.item.wrapper.ContainerTransferHandler;
-import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
+import dev.architectury.transfer.wrapper.single.SimpleSingleTransferHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 
-public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleContainer, BaseSingleTransferHandler<ItemStack>> implements TagSerializable<CompoundTag> {
+public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleContainer, SimpleSingleTransferHandler<ItemStack>> implements TagSerializable<CompoundTag> {
     public SimpleItemTransferHandler(int size) {
         this(new SimpleContainer(size));
     }
@@ -42,7 +42,7 @@ public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleCo
     }
     
     public void clear() {
-        for (BaseSingleTransferHandler<ItemStack> content : getContents()) {
+        for (SimpleSingleTransferHandler<ItemStack> content : getContents()) {
             content.setResource(ItemStack.EMPTY);
         }
     }
@@ -52,7 +52,7 @@ public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleCo
         ListTag listTag = new ListTag();
         int i = 0;
         
-        for (BaseSingleTransferHandler<ItemStack> content : this.getContents()) {
+        for (SimpleSingleTransferHandler<ItemStack> content : this.getContents()) {
             CompoundTag itemTag = new CompoundTag();
             itemTag.put("Item", content.getResource().save(new CompoundTag()));
             itemTag.putInt("Index", i++);
@@ -74,7 +74,7 @@ public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleCo
     }
     
     @Override
-    protected BaseSingleTransferHandler<ItemStack> asTransfer(int index) {
+    protected SimpleSingleTransferHandler<ItemStack> asTransfer(int index) {
         return new SlotTransferHandler(container, index);
     }
 }

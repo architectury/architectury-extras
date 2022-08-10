@@ -22,7 +22,7 @@ package dev.architectury.transfer.item.wrapper;
 import dev.architectury.transfer.item.ItemTransferHandler;
 import dev.architectury.transfer.item.simple.SimpleItemTransferHandler;
 import dev.architectury.transfer.wrapper.combined.CombinedSingleTransferHandler;
-import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
+import dev.architectury.transfer.wrapper.single.SimpleSingleTransferHandler;
 import dev.architectury.transfer.wrapper.single.SingleTransferHandler;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -38,10 +38,10 @@ public abstract class ContainerTransferHandler<C extends Container, P extends Si
         this.container = container;
     }
     
-    public static <C extends Container> ContainerTransferHandler<C, BaseSingleTransferHandler<ItemStack>> of(C container) {
+    public static <C extends Container> ContainerTransferHandler<C, SimpleSingleTransferHandler<ItemStack>> of(C container) {
         return new ContainerTransferHandler<>(container) {
             @Override
-            protected BaseSingleTransferHandler<ItemStack> asTransfer(int index) {
+            protected SimpleSingleTransferHandler<ItemStack> asTransfer(int index) {
                 return new SlotTransferHandler(container, index);
             }
         };
@@ -81,7 +81,7 @@ public abstract class ContainerTransferHandler<C extends Container, P extends Si
         }
     }
     
-    protected static class SlotTransferHandler implements BaseSingleTransferHandler<ItemStack>, ItemTransferHandler {
+    protected static class SlotTransferHandler implements SimpleSingleTransferHandler<ItemStack>, ItemTransferHandler {
         protected final Container container;
         protected final int index;
         

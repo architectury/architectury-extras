@@ -1,10 +1,9 @@
 package dev.architectury.transfer.energy.simple;
 
 import dev.architectury.transfer.TagSerializable;
-import dev.architectury.transfer.energy.wrapper.BaseEnergyTransferHandler;
 import net.minecraft.nbt.CompoundTag;
 
-public class SimpleEnergyTransferHandler implements BaseEnergyTransferHandler, TagSerializable<CompoundTag> {
+public class SimpleEnergyTransferHandler implements dev.architectury.transfer.energy.wrapper.SimpleEnergyTransferHandler, TagSerializable<CompoundTag> {
     protected long stored;
     protected long capacity;
     

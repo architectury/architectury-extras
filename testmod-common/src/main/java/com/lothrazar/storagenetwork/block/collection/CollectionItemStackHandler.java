@@ -33,7 +33,7 @@ import com.lothrazar.storagenetwork.capability.handler.FilterItemStackHandler;
 import com.lothrazar.storagenetwork.capability.handler.ItemStackHandlerEx;
 import com.lothrazar.storagenetwork.registry.StorageNetworkCapabilities;
 import dev.architectury.transfer.TransferAction;
-import dev.architectury.transfer.wrapper.single.BaseSingleTransferHandler;
+import dev.architectury.transfer.wrapper.single.SimpleSingleTransferHandler;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Predicate;
@@ -64,7 +64,7 @@ public class CollectionItemStackHandler extends ItemStackHandlerEx {
     }
     
     @Override
-    protected BaseSingleTransferHandler<ItemStack> asTransfer(int index) {
+    protected SimpleSingleTransferHandler<ItemStack> asTransfer(int index) {
         return new SlotTransferHandler(container, index) {
             @Override
             public long insert(ItemStack toInsert, TransferAction action) {
