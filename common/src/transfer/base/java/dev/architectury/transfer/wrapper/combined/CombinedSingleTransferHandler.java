@@ -42,25 +42,17 @@ public interface CombinedSingleTransferHandler<T, P extends SingleTransferHandle
     List<P> getContents();
     
     @Override
-    default int getContentsSize() {
+    default int size() {
         return getContents().size();
     }
     
     @Override
-    default P getContent(int index) {
+    default P get(int index) {
         return getContents().get(index);
-    }
-    
-    default T get(int index) {
-        return getContent(index).getResource();
     }
     
     @Override
     default Iterator<ResourceView<T>> iterator() {
         return (Iterator<ResourceView<T>>) (Iterator<? extends ResourceView<T>>) getContents().iterator();
-    }
-    
-    default int size() {
-        return getContentsSize();
     }
 }

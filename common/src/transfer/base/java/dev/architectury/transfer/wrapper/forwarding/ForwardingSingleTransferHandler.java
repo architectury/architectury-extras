@@ -36,13 +36,13 @@ public interface ForwardingSingleTransferHandler<T> extends SingleTransferHandle
     }
     
     @Override
-    default int getContentsSize() {
-        return forwardingTo().getContentsSize();
+    default int size() {
+        return forwardingTo().size();
     }
     
     @Override
-    default ResourceView<T> getContent(int index) {
-        return forwardingTo().getContent(index);
+    default ResourceView<T> get(int index) {
+        return forwardingTo().get(index);
     }
     
     @Override

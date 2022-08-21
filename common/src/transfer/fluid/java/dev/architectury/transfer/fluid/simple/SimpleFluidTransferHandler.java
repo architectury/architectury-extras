@@ -56,7 +56,7 @@ public abstract class SimpleFluidTransferHandler<P extends SimpleSingleTransferH
     }
     
     public void set(int index, FluidStack stack) {
-        getContent(index).setResource(stack);
+        get(index).setResource(stack);
     }
     
     public void clear() {

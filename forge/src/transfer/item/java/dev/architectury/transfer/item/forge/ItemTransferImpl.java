@@ -76,18 +76,18 @@ public class ItemTransferImpl {
         
         @Override
         public int getSlots() {
-            return handler.getContentsSize();
+            return handler.size();
         }
         
         @NotNull
         @Override
         public ItemStack getStackInSlot(int index) {
-            return handler.getContent(index).getResource();
+            return handler.get(index).getResource();
         }
         
         @Override
         public int getSlotLimit(int index) {
-            return toInt(handler.getContent(index).getResourceCapacity());
+            return toInt(handler.get(index).getResourceCapacity());
         }
         
         @NotNull
@@ -104,7 +104,7 @@ public class ItemTransferImpl {
         
         @Override
         public boolean isItemValid(int index, @NotNull ItemStack stack) {
-            ItemStack content = handler.getContent(index).getResource();
+            ItemStack content = handler.get(index).getResource();
             return content.getItem() == stack.getItem() && Objects.equals(content.getTag(), stack.getTag());
         }
     }
@@ -136,12 +136,12 @@ public class ItemTransferImpl {
         }
         
         @Override
-        public int getContentsSize() {
+        public int size() {
             return handler.getSlots();
         }
         
         @Override
-        public ResourceView<ItemStack> getContent(int index) {
+        public ResourceView<ItemStack> get(int index) {
             return new ForgeResourceView(index);
         }
         

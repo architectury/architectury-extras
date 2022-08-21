@@ -114,7 +114,7 @@ public class GuiCollectionFilter extends AbstractContainerScreen<ContainerCollec
         int y = 35;
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                ItemStack stack = containerCableLink.cap.getFilter().get(index);
+                ItemStack stack = containerCableLink.cap.getFilter().get(index).getResource();
                 int x = 8 + col * SLOT_SIZE;
                 itemSlotsGhost.add(new ItemSlotNetwork(this, stack, leftPos + x, topPos + y, stack.getCount(), leftPos, topPos, true));
                 index++;

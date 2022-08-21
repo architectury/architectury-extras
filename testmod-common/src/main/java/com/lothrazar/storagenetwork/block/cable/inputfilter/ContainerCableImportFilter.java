@@ -48,7 +48,7 @@ public class ContainerCableImportFilter extends ContainerCable {
         this.cap = tile.ioStorage;
         for (int i = 0; i < cap.upgrades.size(); i++) {
             int finalI = i;
-            this.addSlot(new TransferHandlerSlot(() -> cap.upgrades.getContent(finalI), i, 98 + i * SQ, 6) {
+            this.addSlot(new TransferHandlerSlot(() -> cap.upgrades.get(finalI), i, 98 + i * SQ, 6) {
                 @Override
                 public int getMaxStackSize() {
                     return 1;

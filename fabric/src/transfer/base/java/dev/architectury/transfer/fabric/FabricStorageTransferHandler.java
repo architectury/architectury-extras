@@ -66,7 +66,7 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
     }
     
     @Override
-    public int getContentsSize() {
+    public int size() {
         if (storage instanceof InventoryStorage) {
             return ((InventoryStorage) storage).getSlots().size();
         }
@@ -74,7 +74,7 @@ public class FabricStorageTransferHandler<F, S> implements TransferHandler<S> {
     }
     
     @Override
-    public ResourceView<S> getContent(int index) {
+    public ResourceView<S> get(int index) {
         if (storage instanceof InventoryStorage) {
             return new FabricStorageResourceView((StorageView<F>) ((InventoryStorage) storage).getSlots().get(index));
         }

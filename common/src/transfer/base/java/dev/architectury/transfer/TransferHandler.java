@@ -20,12 +20,11 @@
 package dev.architectury.transfer;
 
 import com.google.common.base.Predicates;
+import dev.architectury.transfer.util.SimpleList;
 import dev.architectury.transfer.wrapper.filtering.FilteringTransferHandler;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.function.Predicate;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * A handler for transferring resources.
@@ -37,35 +36,32 @@ import java.util.stream.StreamSupport;
  * @param <T> the type of resource
  */
 @ApiStatus.NonExtendable
-public interface TransferHandler<T> extends TransferView<T>, Iterable<ResourceView<T>> {
-    /**
-     * Returns the iterable of immutable resources that are currently in the handler.<br>
-     *
-     * @return the iterable of resources that are currently in the handler
-     */
-    default Stream<ResourceView<T>> stream() {
-        return StreamSupport.stream(spliterator(), false);
-    }
-    
+public interface TransferHandler<T> extends TransferView<T>, SimpleList<ResourceView<T>> {
     /**
      * Returns the size of the handler.
      * This may be extremely expensive to compute, avoid if you can.
+     * <p>
+     * {@inheritDoc}
      *
      * @return the size of the handler
      */
     @Deprecated
-    int getContentsSize();
+    @Override
+    int size();
     
     /**
      * Returns the resource in a particular index.
      * This may be extremely expensive to compute, avoid if you can.
+     * <p>
+     * {@inheritDoc}
      *
      * @param index the index of the resource
      * @return the resource in the given index
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     @Deprecated
-    ResourceView<T> getContent(int index);
+    @Override
+    ResourceView<T> get(int index);
     
     /**
      * Inserts the given resource into a given resource index, returning the amount that was inserted.
@@ -76,7 +72,7 @@ public interface TransferHandler<T> extends TransferView<T>, Iterable<ResourceVi
      * @return the amount that was inserted
      */
     default long insertAt(int index, T toInsert, TransferAction action) {
-        return getContent(index).insert(toInsert, action);
+        return get(index).insert(toInsert, action);
     }
     
     /**
@@ -88,7 +84,7 @@ public interface TransferHandler<T> extends TransferView<T>, Iterable<ResourceVi
      * @return the stack that was extracted
      */
     default T extractAt(int index, T toExtract, TransferAction action) {
-        return getContent(index).extract(toExtract, action);
+        return get(index).extract(toExtract, action);
     }
     
     /**
@@ -101,7 +97,7 @@ public interface TransferHandler<T> extends TransferView<T>, Iterable<ResourceVi
      * @return the stack that was extracted
      */
     default T extractAt(int index, Predicate<T> toExtract, long maxAmount, TransferAction action) {
-        return getContent(index).extract(toExtract, maxAmount, action);
+        return get(index).extract(toExtract, maxAmount, action);
     }
     
     /**
@@ -113,7 +109,7 @@ public interface TransferHandler<T> extends TransferView<T>, Iterable<ResourceVi
      * @return the stack that was extracted
      */
     default T extractAt(int index, long maxAmount, TransferAction action) {
-        return getContent(index).extractAny(maxAmount, action);
+        return get(index).extractAny(maxAmount, action);
     }
     
     @Override

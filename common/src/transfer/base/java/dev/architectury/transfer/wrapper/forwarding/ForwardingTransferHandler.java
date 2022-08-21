@@ -40,13 +40,13 @@ public interface ForwardingTransferHandler<T> extends TransferHandler<T>, Forwar
     
     @Override
     @Deprecated
-    default int getContentsSize() {
-        return forwardingTo().getContentsSize();
+    default int size() {
+        return forwardingTo().size();
     }
     
     @Override
     @Deprecated
-    default ResourceView<T> getContent(int index) {
-        return forwardResource(forwardingTo().getContent(index));
+    default ResourceView<T> get(int index) {
+        return forwardResource(forwardingTo().get(index));
     }
 }

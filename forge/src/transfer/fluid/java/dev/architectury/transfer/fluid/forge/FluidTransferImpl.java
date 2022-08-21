@@ -112,23 +112,23 @@ public class FluidTransferImpl {
         
         @Override
         public int getTanks() {
-            return handler.getContentsSize();
+            return handler.size();
         }
         
         @NotNull
         @Override
         public net.minecraftforge.fluids.FluidStack getFluidInTank(int index) {
-            return FluidStackHooksForge.toForge(handler.getContent(index).getResource());
+            return FluidStackHooksForge.toForge(handler.get(index).getResource());
         }
         
         @Override
         public int getTankCapacity(int index) {
-            return toInt(handler.getContent(index).getResourceCapacity());
+            return toInt(handler.get(index).getResourceCapacity());
         }
         
         @Override
         public boolean isFluidValid(int index, @NotNull net.minecraftforge.fluids.FluidStack stack) {
-            FluidStack content = handler.getContent(index).getResource();
+            FluidStack content = handler.get(index).getResource();
             return content.getFluid() == stack.getFluid() && Objects.equals(content.getTag(), stack.getTag());
         }
         
@@ -182,12 +182,12 @@ public class FluidTransferImpl {
         }
         
         @Override
-        public int getContentsSize() {
+        public int size() {
             return handler.getTanks();
         }
         
         @Override
-        public ResourceView<FluidStack> getContent(int index) {
+        public ResourceView<FluidStack> get(int index) {
             return new ForgeResourceView(index);
         }
         

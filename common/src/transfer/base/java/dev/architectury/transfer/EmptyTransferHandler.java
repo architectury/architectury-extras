@@ -30,12 +30,12 @@ public abstract class EmptyTransferHandler<T> implements TransferHandler<T> {
     }
     
     @Override
-    public int getContentsSize() {
+    public int size() {
         return 0;
     }
     
     @Override
-    public ResourceView<T> getContent(int index) {
+    public ResourceView<T> get(int index) {
         throw new IndexOutOfBoundsException(index);
     }
     

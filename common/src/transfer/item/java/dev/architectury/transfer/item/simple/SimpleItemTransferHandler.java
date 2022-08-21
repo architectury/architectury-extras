@@ -38,7 +38,7 @@ public class SimpleItemTransferHandler extends ContainerTransferHandler<SimpleCo
     }
     
     public void set(int index, ItemStack stack) {
-        getContent(index).setResource(stack);
+        get(index).setResource(stack);
     }
     
     public void clear() {

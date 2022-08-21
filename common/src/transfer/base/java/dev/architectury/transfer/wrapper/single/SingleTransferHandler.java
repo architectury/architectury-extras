@@ -44,12 +44,12 @@ public interface SingleTransferHandler<T> extends TransferHandler<T>, ResourceVi
     }
     
     @Override
-    default int getContentsSize() {
+    default int size() {
         return 1;
     }
     
     @Override
-    default ResourceView<T> getContent(int index) {
+    default ResourceView<T> get(int index) {
         if (index != 0) throw new IndexOutOfBoundsException("Index must be 0, got " + index);
         return this;
     }

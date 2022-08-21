@@ -61,12 +61,12 @@ public class FabricContainerItemTransferHandler implements TransferHandler<ItemS
     }
     
     @Override
-    public int getContentsSize() {
+    public int size() {
         return 1 + context.getAdditionalSlots().size();
     }
     
     @Override
-    public ResourceView<ItemStack> getContent(int index) {
+    public ResourceView<ItemStack> get(int index) {
         if (index == 0) return new FabricResourceView(context.getMainSlot());
         return new FabricResourceView(context.getAdditionalSlots().get(index - 1));
     }

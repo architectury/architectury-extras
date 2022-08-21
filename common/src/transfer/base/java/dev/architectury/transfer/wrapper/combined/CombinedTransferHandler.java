@@ -45,25 +45,25 @@ public interface CombinedTransferHandler<T> extends TransferHandler<T>, VariantV
     
     @Override
     @Deprecated
-    default int getContentsSize() {
+    default int size() {
         int size = 0;
         for (TransferHandler<T> handler : getHandlers()) {
-            size += handler.getContentsSize();
+            size += handler.size();
         }
         return size;
     }
     
     @Override
     @Deprecated
-    default ResourceView<T> getContent(int index) {
+    default ResourceView<T> get(int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Index must be non-negative");
         }
         int i = index;
         for (TransferHandler<T> handler : getHandlers()) {
-            int contentsSize = handler.getContentsSize();
+            int contentsSize = handler.size();
             if (i < contentsSize) {
-                return handler.getContent(i);
+                return handler.get(i);
             }
             i -= contentsSize;
         }
