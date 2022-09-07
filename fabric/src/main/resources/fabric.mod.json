@@ -16,8 +16,8 @@
   "environment": "*",
   "icon": "icon.png",
   "depends": {
-    "minecraft": "~1.18.2-",
-    "architectury": ">=4.0"
+    "minecraft": "~1.19.1-",
+    "architectury": ">=6.0"
   },
   "custom": {
     "modmenu:api": true

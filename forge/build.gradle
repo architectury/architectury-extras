@@ -35,6 +35,7 @@ processResources {
 }
 
 shadowJar {
+    from zipTree(jar.archiveFile)
     exclude "fabric.mod.json"
     exclude "architectury-common.accessWidener"
     exclude "architectury.common.json"
@@ -44,9 +45,9 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    classifier "forge"
 }
 
 jar {

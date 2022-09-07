@@ -73,7 +73,6 @@ allprojects {
         }
 
         include "**/*.java"
-        exclude "**/NbtType.java"
 
         ignoreFailures = true
     }
@@ -117,42 +116,30 @@ subprojects { p -> licenseFormatAll.dependsOn("${p.path}:licenseFormat") }
 
 [":common", ":fabric", ":forge"].forEach { projectName ->
     project(projectName) {
-        sourceSets {
-            create("transferBase") {
-                java { srcDirs = [file("src/transfer/base/java")] }
-                resources { srcDirs = [file("src/transfer/base/resources")] }
-                compileClasspath += main.compileClasspath
-            }
-            create("transferItem") {
-                java { srcDirs = [file("src/transfer/item/java")] }
-                resources { srcDirs = [file("src/transfer/item/resources")] }
-                compileClasspath += transferBase.compileClasspath + transferBase.output
-            }
-            create("transferFluid") {
-                java { srcDirs = [file("src/transfer/fluid/java")] }
-                resources { srcDirs = [file("src/transfer/fluid/resources")] }
-                compileClasspath += transferBase.compileClasspath + transferBase.output
-            }
-            create("transferEnergy") {
-                java { srcDirs = [file("src/transfer/energy/java")] }
-                resources { srcDirs = [file("src/transfer/energy/resources")] }
-                compileClasspath += transferBase.compileClasspath + transferBase.output
-            }
-        }
-        
         jar {
-            from sourceSets.transferBase.output
-            from sourceSets.transferItem.output
-            from sourceSets.transferFluid.output
-            from sourceSets.transferEnergy.output
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
-        
-        ["transferBase", "transferItem", "transferFluid", "transferEnergy"].forEach { sourceSetName ->
+
+        for (def sourceSetName : ["transferBase", "transferItem", "transferFluid", "transferEnergy"]) {
+            def simpleName = sourceSetName.substring("transfer".length()).toLowerCase(Locale.ROOT)
+
+            sourceSets {
+                create(sourceSetName) {
+                    java { srcDirs = [file("src/transfer/$simpleName/java")] }
+                    resources { srcDirs = [file("src/transfer/$simpleName/resources")] }
+
+                    if (sourceSetName == "transferBase") {
+                        compileClasspath += main.compileClasspath
+                    } else {
+                        compileClasspath += transferBase.compileClasspath + transferBase.output
+                    }
+                }
+            }
+
             configurations {
                 create(sourceSetName)
             }
-            
+
             def jarTask = tasks.create("${sourceSetName}Jar", Jar) {
                 classifier sourceSetName
                 from sourceSets.getByName(sourceSetName).output
@@ -160,6 +147,10 @@ subprojects { p -> licenseFormatAll.dependsOn("${p.path}:licenseFormat") }
 
             artifacts {
                 add(sourceSetName, jarTask)
+            }
+
+            jar {
+                from sourceSets.getByName(sourceSetName).output
             }
         }
     }

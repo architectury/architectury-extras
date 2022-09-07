@@ -3,13 +3,11 @@ plugins {
 }
 
 loom {
-    forge {
-        localMods {
-            forgeTransferBase { add(project(":forge").sourceSets.transferBase) }
-            forgeTransferItem { add(project(":forge").sourceSets.transferItem) }
-            forgeTransferFluid { add(project(":forge").sourceSets.transferFluid) }
-            forgeTransferEnergy { add(project(":forge").sourceSets.transferEnergy) }
-        }
+    mods {
+        forgeTransferBase { add(project(":forge").sourceSets.transferBase) }
+        forgeTransferItem { add(project(":forge").sourceSets.transferItem) }
+        forgeTransferFluid { add(project(":forge").sourceSets.transferFluid) }
+        forgeTransferEnergy { add(project(":forge").sourceSets.transferEnergy) }
     }
 }
 
@@ -20,6 +18,7 @@ architectury {
 
 configurations {
     common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentForge.extendsFrom common
@@ -29,13 +28,46 @@ dependencies {
     forge "net.minecraftforge:forge:${gradle.rootProject.architectury.minecraft}-${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
     common(project(path: ":common", configuration: "transferBase")) { transitive false }
     common(project(path: ":common", configuration: "transferItem")) { transitive false }
     common(project(path: ":common", configuration: "transferFluid")) { transitive false }
     common(project(path: ":common", configuration: "transferEnergy")) { transitive false }
+    implementation project(path: ":forge", configuration: "namedElements")
     implementation(project(path: ":forge", configuration: "transferBase")) { transitive false }
     implementation(project(path: ":forge", configuration: "transferItem")) { transitive false }
     implementation(project(path: ":forge", configuration: "transferFluid")) { transitive false }
     implementation(project(path: ":forge", configuration: "transferEnergy")) { transitive false }
     common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    include(project(path: ":forge"))
+}
+
+processResources {
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+    inputs.property "META-INF/mods.toml", project.version
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    injectAccessWidener = true
+    inputFile.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "forge"
+}
+
+jar {
+    classifier "dev"
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
 }

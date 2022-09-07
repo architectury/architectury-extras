@@ -4,7 +4,7 @@ license = "MIT"
 
 [[mods]]
 modId = "storagenetwork"
-version = "${file.jarVersion}"
+version = "${version}"
 displayName = "Simple Storage Network"
 authors = "shedaniel, Lothrazar, MrRiegel"
 description = '''

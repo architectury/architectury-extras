@@ -15,6 +15,7 @@ architectury {
 
 configurations {
     common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
@@ -36,4 +37,35 @@ dependencies {
     implementation(project(path: ":fabric", configuration: "transferFluid")) { transitive false }
     implementation(project(path: ":fabric", configuration: "transferEnergy")) { transitive false }
     common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    include(project(path: ":fabric"))
+}
+
+processResources {
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+    inputs.property "version", project.version
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    injectAccessWidener = true
+    inputFile.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "fabric"
+}
+
+jar {
+    classifier "dev"
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
 }

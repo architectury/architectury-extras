@@ -41,6 +41,7 @@ processResources {
 }
 
 shadowJar {
+    from zipTree(jar.archiveFile)
     exclude "architectury-common.accessWidener"
     exclude "architectury.common.json"
 
@@ -50,9 +51,9 @@ shadowJar {
 
 remapJar {
     injectAccessWidener = true
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    classifier "fabric"
 }
 
 jar {
